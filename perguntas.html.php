@@ -55,7 +55,7 @@
                     case "radio":
                     case "checkbox":
                     ?><tr>
-                    <td width="5" align="right"><b><? $form->AddInputPart($params['ID']); ?></b></td>
+                    <td width="5" align="right" style="white-space: nowrap"><b><? $form->AddInputPart($params['ID']); ?></b></td>
                     <td><? $form->AddLabelPart(array("FOR"=>$params['ID'])); ?></td>
                     </tr>
                    <?
