@@ -29,7 +29,7 @@
 ?>
    
     <tr class="<?= $cssName ?>">
-      <td valign="top" width="20" class="borda1"><?= $rowPerg['identificador'] ?></td>
+      <td valign="top" width="20" class="borda1" style="white-space: nowrap"><?= $rowPerg['identificador'] ?></td>
       <td  valign="top" class="pergunta borda1">
       <div id="pergunta_<?= $rowPerg['idpergunta'] ?>"><?= $rowPerg['texto'] ?></div>
        <table cellpadding="0" cellspacing="0" style="padding:0;margin:3px 0">
@@ -55,7 +55,7 @@
                     case "radio":
                     case "checkbox":
                     ?><tr>
-                    <td width="5" align="right" style="white-space: nowrap"><b><? $form->AddInputPart($params['ID']); ?></b></td>
+                    <td width="5" align="right"><b><? $form->AddInputPart($params['ID']); ?></b></td>
                     <td><? $form->AddLabelPart(array("FOR"=>$params['ID'])); ?></td>
                     </tr>
                    <?
