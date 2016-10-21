@@ -1,0 +1,78 @@
+#TITLE=Metabase
+#CASE=y
+
+#T=database
+<database>
+	^!
+</database>
+#T=create
+<create>^!</create>
+#T=table
+<table>
+	^!
+</table>
+#T=declaration
+<declaration>
+	^!
+</declaration>
+#T=index
+<index>
+	^!
+</index>
+#T=sorting
+<sorting>^!</sorting>
+#T=unique
+<unique>1</unique>
+#T=init
+<initialization>
+	^!
+</initialization>
+#T=insert
+<insert>
+	^!
+</insert>
+#T=value
+<value>^!</value>
+#T=sequence
+<sequence>
+	^!
+</sequence>
+#T=start
+<start>^!</start>
+#T=on
+<on>^!</on>
+#T=field
+<field>
+	^!
+</field>
+#T=type
+<type>^!</type>
+#T=name
+<name>^!</name>
+#T=len
+<length>^!</length>
+#T=notnull
+<notnull>^!</notnull>
+#T=unsigned
+<unsigned>1</unsigned>
+#T=default
+<default>^!</default>
+#T=was
+<was>^!</was>
+#T=var
+<variable>^!</variable>
+#T=te
+text
+#T=boo
+boolean
+#T=int
+integer
+#T=deci
+decimal
+#T=flo
+float
+#T=times
+timestamp
+#T=ti
+time
+#

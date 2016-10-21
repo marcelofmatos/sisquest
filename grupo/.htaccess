@@ -1,0 +1,9 @@
+Order allow,deny
+Allow from all
+AuthType        Basic
+AuthUserFile    /app/.htpasswd
+
+AuthName        "Questionários"
+
+AuthGroupFile    /app/.htgroups
+#require group mod_admin mod_questionario

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+     autoincrement.schema
+
+     @(#) $Id: autoincrement.schema,v 1.2 2005/09/19 00:14:43 mlemos Exp $
+
+  -->
+
+<database>
+
+ <name><variable>name</variable></name>
+ <create>0</create>
+
+ <table>
+  <name>articles</name>
+  <declaration>
+   <field> <name>id</name>       <autoincrement>1</autoincrement> </field>
+   <field> <name>title</name>    <type>text</type>                </field>
+   <field> <name>body</name>     <type>text</type>                </field>
+   <field> <name>author</name>   <type>integer</type>             </field>
+   <field> <name>score</name>    <type>float</type>               </field>
+  </declaration>
+ </table>
+
+</database>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+     @(#) $Header: /cvsroot/PHPlibrary/example.xml,v 1.1 1999/07/07 04:22:19 mlemos Exp $
+  -->
+<CONTENTS>
+ <OBJECT>
+  <NAME>LOCALE</NAME>
+  <CLASS>locale</CLASS>
+  <ATTRIBUTES></ATTRIBUTES>
+ </OBJECT>
+ <OBJECT>
+  <NAME>HEADER_FOOTER</NAME>
+  <CLASS>header_footer</CLASS>
+  <ATTRIBUTES>
+   <TITLE><LOCALE>
+    <STRING>Welcome</STRING>
+   </LOCALE></TITLE>
+  </ATTRIBUTES>
+ </OBJECT>
+</CONTENTS>

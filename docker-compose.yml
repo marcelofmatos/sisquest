@@ -1,0 +1,18 @@
+# Example to use single server
+webserver:
+  image: marcelofmatos/sisquest
+  #build: .
+  environment:
+   - ADMIN_USER=admin
+   - ADMIN_PASSWORD=admin
+  ports:
+   - "80:80"
+  links:
+    - dbserver
+
+dbserver:
+  image: mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD=EkqtDzo4foycE
+  volumes:
+    - ./db/sisquest.sql:/docker-entrypoint-initdb.d/sisquest.sql

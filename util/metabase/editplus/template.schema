@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<database>
+	<name></name>
+
+	<!-- Flag parser to create database -->
+	<create>1</create>
+
+	<table>
+		<name></name>
+
+		<!-- Declare table -->
+		<declaration>
+
+			<field>
+				<type></type>
+				<name></name>
+			</field>
+
+			<index>
+				<name></name>
+				<unique>1</unique>
+				<field>
+					<name></name>
+					<sorting></sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+		<!-- Populate table -->
+		<initialization>
+			<insert>
+				<field>
+					<name></name>
+					<value></value>
+				</field>
+			</insert>
+		<initialization>
+	</table>
+
+	<sequence>
+		<name></name>
+		<start></start>
+		<on>
+			<field></field>
+			<table></table>
+		</on>
+	</sequence>
+
+</database>

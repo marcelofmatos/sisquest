@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!--
+     test.schema
+
+     @(#) $Header: /home/mlemos/cvsroot/metabase/test.schema,v 1.5 2005/09/08 05:51:17 mlemos Exp $
+
+  -->
+
+<database>
+
+ <name>test</name>
+ <create><variable>create</variable></create>
+
+ <table>
+  <name>users</name>
+  <declaration>
+   <field> <name>id</name>            <autoincrement>1</autoincrement>                                               </field>
+   <field> <name>user_name</name>     <type>text</type> <length>20</length> <notnull>1</notnull> <default></default> </field>
+   <field> <name>user_password</name> <type>text</type>                                                              </field>
+   <field> <name>reminder</name>      <type>text</type>                                                              </field>
+   <field> <name>name</name>          <type>text</type>                                                              </field>
+   <field> <name>email</name>         <type>text</type>                                                              </field>
+
+   <index>
+    <name>user_name_index</name>
+    <unique>1</unique>
+    <field> <name>user_name</name> </field>
+   </index>
+
+  </declaration>
+ </table>
+
+ <table>
+  <name>groups</name>
+  <declaration>
+   <field> <name>name</name>        <type>text</type> </field>
+   <field> <name>owner_id</name>    <type>text</type> </field>
+   <field> <name>description</name> <type>text</type> </field>
+  </declaration>
+ </table>
+
+ <table>
+  <name>group_users</name>
+  <declaration>
+   <field> <name>group_id</name> <type>text</type> </field>
+   <field> <name>user_id</name>  <type>text</type> </field>
+  </declaration>
+ </table>
+
+</database>

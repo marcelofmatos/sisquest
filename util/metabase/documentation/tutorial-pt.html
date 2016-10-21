@@ -1,0 +1,885 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Introdução ao Metabase</title>
+</head>
+<body>
+<center><h1>Introdução ao Metabase</h1></center>
+<hr />
+<ul>
+<p><b>Autor:</b> Manuel Lemos (<a href="mailto:mlemos-at-acm.org">mlemos-at-acm.org</a>)</p>
+<p><b>Controlo de vers&atilde;o:</b> <tt>@(#) $Id: tutorial-pt.documentation,v 1.7 2005/09/20 23:00:53 mlemos Exp $</tt></p>
+<h2>&Iacute;ndice</h2>
+<li><a href="#1.0">Introdu&ccedil;&atilde;o ao Metabase</a></li>
+<ul>
+<li><a href="#2.1.1">Requisitos do Metabase</a></li>
+<ul>
+<li><a href="#3.2.1">O programa PHP</a></li>
+<li><a href="#3.2.2">As op&ccedil;&otilde;es de PHP</a></li>
+<li><a href="#3.2.3">Ficheiros para inclus&atilde;o</a></li>
+</ul>
+<li><a href="#4.1.2">Desenhar o esquema de uma base de dados</a></li>
+<li><a href="#22.1.3">Instalar a base de dados</a></li>
+<li><a href="#33.1.4">Aceder &agrave; informa&ccedil;&atilde;o na base de dados</a></li>
+<ul>
+<li><a href="#34.2.1">Fun&ccedil;&otilde;es ou Objectos?</a></li>
+<li><a href="#35.2.1">Configura&ccedil;&atilde;o do acesso &agrave; base de dados</a></li>
+<li><a href="#40.2.2">Invocar as fun&ccedil;&otilde;es dos objectos driver directamente</a></li>
+<li><a href="#44.2.3">Executar consultas &agrave; base de dados</a></li>
+<ul>
+<li><a href="#45.3.1">Consultas directas</a></li>
+<li><a href="#46.3.2">Consultas preparadas</a></li>
+<li><a href="#48.3.3">Chaves auto-incrementais</a></li>
+</ul>
+<li><a href="#48.2.4">Obter os resultados de consultas</a></li>
+<ul>
+<li><a href="#49.3.1">Buscar dados de resultados</a></li>
+<li><a href="#51.3.2">Convers&atilde;o do tipo de dados</a></li>
+<li><a href="#52.3.3">Tratamento de valores NULL</a></li>
+<li><a href="#54.3.4">Obter todas as linhas de um conjunto de resultados</a></li>
+<li><a href="#68.3.5">Devolver os recursos de mem&oacute;ria reservados para um conjunto de resultados</a></li>
+</ul>
+<li><a href="#68.2.5">Tratamento de campos de grande porte</a></li>
+<ul>
+<li><a href="#69.3.1">Cria&ccedil;&atilde;o de campos de grande porte em tabelas</a></li>
+<li><a href="#72.3.2">Armazenar dados em campos de grande porte</a></li>
+<li><a href="#96.3.3">Obter dados a partir de campos de grande porte</a></li>
+</ul>
+</ul>
+<li><a href="#138.1.5">Actualizar o esquema de uma base de dados</a></li>
+</ul>
+</ul>
+<hr />
+<h1><a name="1.0">Introdu&ccedil;&atilde;o ao Metabase</a></h1>
+<ul>
+<p><b>Metabase</b> &eacute; um pacote de programas e componentes que permite aos programadores da linguagem <i>PHP</i> desenvolver aplica&ccedil;&otilde;es com bases de dados que funcionam de forma igual independentemente do <i>SGBD</i> (<i>Sistema de Gest&atilde;o de Bases de Dados</i>) utilizado.</p>
+<p>Os passos que os programadores precisam seguir para desenvolver aplica&ccedil;&otilde;es com base em <i>Metabase</i> s&atilde;o id&ecirc;nticos as passos que seguiriam se usassem as fun&ccedil;&otilde;es originais para comunicar com cada <i>SGBD</i> directamente. A principal vantagem do uso de <b>Metabase</b> &eacute; que os programadores precisam aprender e utilizar apenas um conjunto de fun&ccedil;&otilde;es para desenvolver aplica&ccedil;&otilde;es que podem correr com muitos <i>SGBD</i> diferentes.</p>
+<p>O objectivo deste documento de aprendizagem &eacute; fazer uma introdu&ccedil;&atilde;o aos passos b&aacute;sicos para que os principiantes possam come&ccedil;ar a desenvolver aplica&ccedil;&otilde;es de bases de dados com <b>Metabase</b>.  Para obter informa&ccedil;&atilde;o mais aprofundada, por favor consulte o manual de documenta&ccedil;&atilde;o do <b>Metabase</b>.</p>
+<h2><li><a name="2.1.1">Requisitos do Metabase</a></li></h2>
+<p>Antes de come&ccedil;ar a usar o <b>Metabase</b> existem alguns requisitos de instala&ccedil;&atilde;o que os programadores precisam conhecer e compreender.</p>
+<ul>
+<h3><li><a name="3.2.1">O programa PHP</a></li></h3>
+<p>A linguagem <i>PHP</i> &eacute; normalmente usada a partir de um servidor <i>Web</i>, na forma mais comum como m&oacute;dulo do servidor, mas tamb&eacute;m pode ser usada como programa <i>CGI</i>.  Quando <i>PHP</i> &eacute; compilado como programa <i>CGI</i>, &eacute; gerado um programa na forma de ficheiro execut&aacute;vel independente. Este programa <i>CGI</i> tamb&eacute;m pode ser usado para executar <i>scripts</i> de <i>PHP</i> a partir da linha de comando do sistema operativo.</p>
+<p>Apesar de ser poss&iacute;vel fazer o mesmo usando <i>PHP</i> como m&oacute;dulo do servidor <i>Web</i>, &eacute; recomend&aacute;vel que use o programa <i>CGI</i> para executar <i>scripts</i> de <i>PHP</i> para installar ou configurar bases de dados usando <b>Metabase</b>.</p>
+<p>Se pretender executar o <i>script</i> de instala&ccedil;&atilde;o <tt>setup_test.php</tt> a partir da linha de comando, &eacute; preciso escrever por exemplo:</p>
+<pre style="background-color: #ddddcc; ">
+
+ /usr/local/bin/php -q setup_test.php
+
+</pre>
+<h3><li><a name="3.2.2">As op&ccedil;&otilde;es de PHP</a></li></h3>
+<p><i>PHP</i> tem diversas op&ccedil;&otilde;es de execu&ccedil;&atilde;o que existem para facilitar o trabalho dos programadores.  A op&ccedil;&atilde;o com o nome <tt>magic_quotes_runtime</tt> serve para inserir automaticamente caracteres de escape em valores literais de texto com determinados caracteres antes de executar um comando <i>SQL</i>.</p>
+<p>O <b>Metabase</b> j&aacute; possue a capacidade de inserir carateres de escape junto de caracteres especiais atrav&eacute;s das fun&ccedil;&otilde;es <tt>MetabaseGetTextFieldValue</tt> e <tt>MetabaseQuerySetText</tt>. Se uma destas fun&ccedil;&otilde;es for usada ao mesmo tempo que a op&ccedil;&atilde;o <tt>magic_quotes_runtime</tt> tiver o valor <tt>On</tt>, alguns carateres podem acabar por ficar com carateres de escape duplicados.</p>
+<p>Para evitar a duplica&ccedil;&atilde;o de inser&ccedil;&atilde;o de carateres de escape, por favor desligue a op&ccedil;&atilde;o <tt>magic_quotes_runtime</tt> e tamb&eacute;m a op&ccedil;&atilde;o <tt>magic_quotes_sybase</tt> atribuindo-lhes o valor <tt>Off</tt> na sua configura&ccedil;&atilde;o de <i>PHP</i> por exemplo tendo as seguintes linhas no seu ficheiro <tt>php.ini</tt> ou <tt>php3.ini</tt>:</p>
+<pre style="background-color: #ddddcc; ">
+
+ magic_quotes_runtime = Off
+ magic_quotes_sybase = Off
+
+</pre>
+<h3><li><a name="3.2.3">Ficheiros para inclus&atilde;o</a></li></h3>
+<p>O <b>Metabase</b> &eacute; constitu&iacute;do por diversos ficheiros de <i>PHP</i> que precisam ser inclu&iacute;dos a partir dos seus <i>scripts</i>, dependendo do que pretende fazer com o <b>Metabase</b>.  Aqui segue a lista dos ficheiros mais importantes e a informa&ccedil;&atilde;o sobre quando &eacute; que devem ser inclu&iacute;dos a partir dos seus <i>scripts</i>.</p>
+<ul>
+<p><li><tt>metabase_interface.php</tt></li></p>
+<p>Este &eacute; o ficheiro principal com as fun&ccedil;&otilde;es do <b>Metabase</b>. Deve ser inclu&iacute;do sempre que pretender aceder a uma base de dados atrav&eacute;s do <b>Metabase</b>.</p>
+<p><li><tt>metabase_database.php</tt></li></p>
+<p>Este &eacute; o ficheiro com a defini&ccedil;&atilde;o da classe de base para todas classes que servem como <i>driver</i> do <b>Metabase</b> para acesso a cada tipo de base de dados.   Deve ser inclu&iacute;do sempre que pretender aceder a uma base de dados atrav&eacute;s do <b>Metabase</b>.</p>
+<p>Os ficheiros das classes <i>driver</i> de bases de dados s&atilde;o inclu&iacute;dos automaticamente quando &eacute; invocada a fun&ccedil;&atilde;o <tt>MetabaseSetupDatabase</tt>.  Se o ficheiro da classe <i>driver</i> de base de dados que pretende usar n&atilde;o estiver no direct&oacute;rio actual do seu <i>script</i>, especifique o direct&oacute;rio desse ficheiro atrav&eacute;s do argumento <tt>IncludePath</tt> da fun&ccedil;&atilde;o <tt>MetabaseSetupDatabase</tt>.</p>
+<p><li><tt>metabase_lob.php</tt></li></p>
+<p>Este &eacute; o ficheiro que cont&eacute;m as fun&ccedil;&otilde;es necess&aacute;rias para tratar de campos de tabelas que armazenam objectos grandes (<i>LOBs - Large OBjects</i>). Deve ser inclu&iacute;do sempre que pretender armazenar ou consultar dados em campos de objectos grandes.</p>
+<p><li><tt>metabase_manager.php</tt></li></p>
+<p>Este &eacute; o ficheiro com a defini&ccedil;&atilde;o da classe de gest&atilde;o de esquemas de bases de dados.  Deve ser inclu&iacute;do sempre que for preciso consultar ou alterar o esquema de defini&ccedil;&atilde;o de uma base de dados.</p>
+<p><li><tt>metabase_parser.php</tt></li></p>
+<p>Este &eacute; o ficheiro da classe de interpreta&ccedil;&atilde;o da defini&ccedil;&atilde;o de esquemas de bases de dados. Deve ser inclu&iacute;do sempre que for preciso interpretar um ficheiro XML com a defini&ccedil;&atilde;o do esquema de uma base de dados.</p>
+<p><li><tt>xml_parser.php</tt></li></p>
+<p>Este &eacute; o ficheiro da classe para interpreta&ccedil;&atilde;o gen&eacute;rica de ficheiros XML.  Deve ser inclu&iacute;do sempre que for preciso interpretar um ficheiro XML com a defini&ccedil;&atilde;o de um esquema de uma base de dados.</p>
+</ul>
+</ul>
+<h2><li><a name="4.1.2">Desenhar o esquema de uma base de dados</a></li></h2>
+<p>Antes de tudo, &eacute; preciso desenhar e instalar o esquema da base de dados que conter&aacute; a informa&ccedil;&atilde;o necess&aacute;ria pela aplica&ccedil;&atilde;o que pretende desenvolver.</p>
+<p>O <b>Metabase</b> simplifica bastante este passo porque permite que os programadores desenhem os esquemas das suas bases de dados de forma independente do <i>SGBD</i>. Tudo o que &eacute; preciso &eacute; escrever um ficheiro de texto num formato de XML pr&oacute;prio que descreve as tabelas e os campos que pretende que a sua base de dados tenha.</p>
+<p>O formato XML para descri&ccedil;&atilde;o de esquemas de bases de dados est&aacute; completamente documentado no manual do <b>Metabase</b>, mas um exemplo frequentemente explica melhor que um manual exaustivo. Portanto, vamos analisar o seguinte exemplo comentado:</p>
+<p><tt>&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot; ?&gt;</tt></p>
+<p>Esta &eacute; uma linha de cabe&ccedil;alho t&iacute;pica que todos ficheiros de XML devem ter.</p>
+<p><tt>&lt;database&gt;</tt></p>
+<p>Esta &eacute; a marca inicial de um esquema de <b>Metabase</b>.  Todos ficheiros XML de <b>Metabase</b> devem come&ccedil;ar por esta marca.</p>
+<ul>
+<p><tt>&lt;name&gt;teste&lt;/name&gt;<br />
+&lt;create&gt;1&lt;/create&gt;</tt></p>
+</ul>
+<p>Estas s&atilde;o as propriedades principais da base de dados.  A propriedade <tt>name</tt> indica o nome da base de dados e &eacute; obrigat&oacute;ria.  A propriedade <tt>create</tt> n&atilde;o &eacute; obrigat&oacute;ria, mas como se pretende que o <b>Metabase</b> crie a base de dados quando esta for instalada pela primeira vez, esta propriedade deve ter o valor <tt>1</tt>.</p>
+<ul>
+<p><tt>&lt;table&gt;</tt></p>
+<ul>
+<p><tt>&lt;name&gt;utilizadores&lt;/name&gt;</tt></p>
+</ul>
+</ul>
+<p>As defini&ccedil;&otilde;es das tabelas podem ter duas sec&ccedil;&otilde;es: <tt>declaration</tt> e <tt>initialization</tt>.  A sec&ccedil;&atilde;o <tt>declaration</tt> &eacute; obrigat&oacute;ria porque tem de conter a declara&ccedil;&atilde;o de todos os campos e &iacute;ndices da tabela que s&atilde;o necess&aacute;rios. A sec&ccedil;&atilde;o <tt>initialization</tt> n&atilde;o &eacute; obrigat&oacute;ria mas pode ser usada se for necess&aacute;rio criar a tabela j&aacute; com alguns dados iniciais.</p>
+<ul>
+<ul>
+<p><tt>&lt;declaration&gt;</tt></p>
+<ul>
+<p><tt>&lt;field&gt; &lt;name&gt;id&lt;/name&gt;   &lt;autoincrement&gt;1&lt;/autoincrement&gt;                                                                                                             &lt;/field&gt;<br />
+&lt;field&gt; &lt;name&gt;nome_de_acesso&lt;/name&gt; &lt;type&gt;text&lt;/type&gt; &lt;length&gt;20&lt;/length&gt; &lt;notnull&gt;1&lt;/notnull&gt; &lt;default&gt;&lt;/default&gt;     &lt;/field&gt;<br />
+&lt;field&gt; &lt;name&gt;senha&lt;/name&gt;  &lt;type&gt;text&lt;/type&gt;                                                                                                                          &lt;/field&gt;<br />
+&lt;field&gt; &lt;name&gt;lembrete&lt;/name&gt;  &lt;type&gt;text&lt;/type&gt;                                                                                                                       &lt;/field&gt;<br />
+&lt;field&gt; &lt;name&gt;nome&lt;/name&gt;      &lt;type&gt;text&lt;/type&gt;                                                                                                                       &lt;/field&gt;<br />
+&lt;field&gt; &lt;name&gt;endereco&lt;/name&gt;     &lt;type&gt;text&lt;/type&gt;                                                                                                                    &lt;/field&gt;</tt></p>
+</ul>
+</ul>
+</ul>
+<p>A sec&ccedil;&atilde;o de declara&ccedil;&atilde;o da tabela deve descrever um ou mais campos. A defini&ccedil;&atilde;o de cada campo deve ter pelo menos as propriedades <tt>name</tt> e <tt>type</tt>. Os campos de chaves auto-incrementais s&atilde;o implicitamente do tipo <tt>integer</tt>, pelo que o seu tipo n&atilde;o precisa ser declarado explicitamente. Os tipos de campo mais comuns s&atilde;o <tt>integer</tt> e <tt>text</tt>, mas outros tipos como <tt>date</tt> e <tt>timestamp</tt> tamb&eacute;m s&atilde;o usados frequentemente.</p>
+<ul>
+<ul>
+<ul>
+<p><tt>&lt;index&gt;</tt></p>
+<ul>
+<p><tt>&lt;name&gt;indice_nome_de_acesso&lt;/name&gt;<br />
+&lt;unique&gt;1&lt;/unique&gt;<br />
+&lt;field&gt; &lt;name&gt;nome_de_acesso&lt;/name&gt; &lt;/field&gt;</tt></p>
+</ul>
+<p><tt>&lt;/index&gt;</tt></p>
+</ul>
+</ul>
+</ul>
+<p>O uso de &iacute;ndices n&atilde;o &eacute; obrigat&oacute;rio, mas as aplica&ccedil;&otilde;es usam sempre &iacute;ndices para acelerar o acesso &agrave;s bases de dados. Os &iacute;ndices s&atilde;o criados normalmente nos campos que est&atilde;o involvidos nas condi&ccedil;&otilde;es de pesquisa das consultas mais importantes que as aplica&ccedil;&otilde;es de bases de dados executam.</p>
+<p>O crit&eacute;rio que dever&aacute; ser usado para determinar sob que campos os &iacute;ndices dever&atilde;o ser criados depende muito de para qu&ecirc; que &eacute; usada a aplica&ccedil;&atilde;o de base de dados. Portanto, orientar as decis&otilde;es de cria&ccedil;&atilde;o de &iacute;ndices est&aacute; fora do &acirc;mbito desde documento.</p>
+<p>De qualquer forma, normalmente existem campos que s&atilde;o declarados como sendo chaves prim&aacute;rias ou secund&aacute;rias das tabelas.  O <b>Metabase</b> ainda n&atilde;o oferece suporte para a declara&ccedil;&atilde;o de chaves de tabelas porque nem todos <i>SGBD</i> as suportam. Por&eacute;m, &eacute; suportada a cria&ccedil;&atilde;o de &iacute;ndices &uacute;nicos em campos individuais, que na pr&aacute;tica funciona como se esses campos tivessem sido declarados como sendo chaves prim&aacute;rias das respectivas tabelas.</p>
+<p>Os campos sob os quais s&atilde;o criados &iacute;ndices n&atilde;o podem ter o valor <tt>NULL</tt>.  Por isso, o interpretador de descri&ccedil;&otilde;es de esquemas do <b>Metabase</b> requer que esses campos sejam declarados com a propriedade de restri&ccedil;&atilde;o <tt>notnull</tt>.  Nesse caso tamb&eacute;m requer que a propriedade <tt>default</tt> seja definida com um valor diferente de <tt>NULL</tt>, como no caso do campo <tt>id</tt> do exemplo acima.</p>
+<ul>
+<ul>
+<p><tt>&lt;/declaration&gt;</tt></p>
+</ul>
+<p><tt>&lt;/table&gt;</tt></p>
+</ul>
+<ul>
+<p><tt>&lt;table&gt;</tt></p>
+<ul>
+<p><tt>&lt;name&gt;grupos&lt;/name&gt;<br />
+&lt;declaration&gt;</tt></p>
+<ul>
+<p><tt>&lt;field&gt; &lt;name&gt;nome&lt;/name&gt;        &lt;type&gt;text&lt;/type&gt; &lt;/field&gt;<br />
+&lt;field&gt; &lt;name&gt;dono&lt;/name&gt;    &lt;type&gt;text&lt;/type&gt; &lt;/field&gt;<br />
+&lt;field&gt; &lt;name&gt;descricao&lt;/name&gt; &lt;type&gt;text&lt;/type&gt; &lt;/field&gt;</tt></p>
+</ul>
+<p><tt>&lt;/declaration&gt;</tt></p>
+</ul>
+<p><tt>&lt;/table&gt;</tt></p>
+</ul>
+<ul>
+<p><tt>&lt;table&gt;</tt></p>
+<ul>
+<p><tt>&lt;name&gt;utilizadores_grupo&lt;/name&gt;<br />
+&lt;declaration&gt;</tt></p>
+<ul>
+<p><tt>&lt;field&gt; &lt;name&gt;id_grupo&lt;/name&gt; &lt;type&gt;text&lt;/type&gt; &lt;/field&gt;<br />
+&lt;field&gt; &lt;name&gt;id_utilizador&lt;/name&gt;  &lt;type&gt;text&lt;/type&gt; &lt;/field&gt;</tt></p>
+</ul>
+<p><tt>&lt;/declaration&gt;</tt></p>
+</ul>
+<p><tt>&lt;/table&gt;</tt></p>
+</ul>
+<p>Mais tabelas poderiam ser declaradas, tantas quantas forem necess&aacute;rias na sua aplica&ccedil;&atilde;o de base de dados.</p>
+<p><tt>&lt;/database&gt;</tt></p>
+<p>Os ficheiros de XML do <b>Metabase</b> devem terminar com uma marca final que condiz com a marca inicial do ficheiro.</p>
+<h2><li><a name="22.1.3">Instalar a base de dados</a></li></h2>
+<p>Assim que tiver criado o ficheiro de descri&ccedil;&atilde;o do esquema da sua base de dados, &eacute; a vez de instalar esse esquema no servidor do <i>SGBD</i>. Quando se usa a classe de gest&atilde;o do <b>Metabase</b>, este procedimento torna-se bastante simples.</p>
+<p>Suponhamos que escreveu e gravou o esquema da sua base de dados num ficheiro com o nome <tt>MinhaBaseDeDados.esquema</tt>.  Para instalar a base de dados pela primeira vez, por exemplo num servidor <i>MySQL</i>, tudo o que precisa fazer &eacute; escrever um <i>script</i> que cria um objecto da classe de gest&atilde;o do <b>Metabase</b> e invoca a fun&ccedil;&atilde;o <tt>UpdateDatabase</tt>. Depois use o programa execut&aacute;vel de PHP para executar o <i>script</i> que deve ser semelhante a este:</p>
+<p><tt>&lt;?php<br />
+</tt></p>
+<ul>
+<p><tt>require(&quot;xml_parser.php&quot;);<br />
+require(&quot;metabase_parser.php&quot;);<br />
+require(&quot;metabase_interface.php&quot;);<br />
+require(&quot;metabase_database.php&quot;);<br />
+require(&quot;metabase_manager.php&quot;);</tt></p>
+</ul>
+<p>Incluir os ficheiros necess&aacute;rios.</p>
+<ul>
+<p><tt>$ficheiro_do_esquema=&quot;MinhaBaseDeDados.esquema&quot;;</tt></p>
+</ul>
+<p>Esta &eacute; a defini&ccedil;&atilde;o do nome do ficheiro do esquema da sua base de dados.</p>
+<ul>
+<p><tt>$variaveis=array();</tt></p>
+</ul>
+<p>Se a defini&ccedil;&atilde;o do esquema da sua base de dados precisa de valores de vari&aacute;veis definidos no momento de instala&ccedil;&atilde;o, defina esses valores aqui. No esquema de exemplo acima n&atilde;o foram usadas quaisquer vari&aacute;veis. Portanto, a lista de vari&aacute;veis foi definida como um <i>array</i> vazio.</p>
+<ul>
+<p><tt>$argumentos=array(</tt></p>
+<ul>
+<p><tt>&quot;Type&quot;=&gt;&quot;mysql&quot;,</tt><br />
+<tt>&quot;User&quot;=&gt;&quot;nome_do_utilizador_mysql&quot;,</tt><br />
+<tt>&quot;Password&quot;=&gt;&quot;senha_do_utilizador_mysql&quot;</tt></p>
+</ul>
+<p><tt>);</tt></p>
+</ul>
+<p>Para estabelecer uma liga&ccedil;&atilde;o ao servidor de base de dados &eacute; necess&aacute;rio passar alguns argumentos espec&iacute;ficos do tipo de <i>SGBD</i> para a fun&ccedil;&atilde;o <tt>SetupDatabase</tt> da classe de gest&atilde;o do <b>Metabase</b>. O argumento <tt>Type</tt> permite que a classe de interface inclua automaticamente os ficheiros da respectiva classe <i>driver</i> que devem estar no direct&oacute;rio actual ou ent&atilde;o noutro direct&oacute;rio que deve ser especificado atrav&eacute;s do argumento <tt>IncludePath</tt>.</p>
+<ul>
+<p><tt>$gestor=new metabase_manager_class;</tt></p>
+</ul>
+<p>Criar o objecto da classe de gest&atilde;o do <b>Metabase</b>.</p>
+<ul>
+<p><tt>$sucesso=$gestor-&gt;UpdateDatabase($ficheiro_do_esquema, $ficheiro_do_esquema.&quot;.antes&quot;, $argumentos, $variaveis);</tt></p>
+</ul>
+<p>Invoca a fun&ccedil;&atilde;o <tt>UpdateDatabase</tt> do objecto da classe de gest&atilde;o do <b>Metabase</b> passando o nome do ficheiro do esquema, os argumentos de configura&ccedil;&atilde;o da base de dados e a lista de vari&aacute;veis do esquema.</p>
+<p>O segundo par&acirc;metro &eacute; de especial import&acirc;ncia.  Esse par&acirc;metro define o nome do ficheiro para o qual ser&aacute; copiado o ficheiro do esquema que est&aacute; a ser instalado ap&oacute;s um procedimento de instala&ccedil;&atilde;o com sucesso.</p>
+<p>O ficheiro copiado ser&aacute; usado mais tarde quando pretender actualizar o esquema da sua base de dados. N&atilde;o apague este ficheiro sen&atilde;o a classe de gest&atilde;o do <b>Metabase</b> n&atilde;o conseguir&aacute; determinar que esquema foi previamente instalado.</p>
+<ul>
+<p><tt>if(!$sucesso)</tt></p>
+<ul>
+<p><tt>echo &quot;Erro: &quot;.$gestor-&gt;error.&quot;\n&quot;;</tt></p>
+</ul>
+</ul>
+<p>Se o procedimento de instala&ccedil;&atilde;o falhou, exiba a mensagem de erro para determinar o que correu mal.</p>
+<ul>
+<p><tt>if(count($gestor-&gt;warnings)&gt;0)</tt></p>
+<ul>
+<p><tt>echo &quot;AVISO:\n&quot;,implode($gestor-&gt;warnings,&quot;!\n&quot;),&quot;\n&quot;;</tt></p>
+</ul>
+</ul>
+<p><tt>?&gt;</tt></p>
+<p>Mesmo quando o procedimento de instala&ccedil;&atilde;o foi completado com sucesso, podem existir alguns detalhes sobre os quais deve ser avisado.</p>
+<h2><li><a name="33.1.4">Aceder &agrave; informa&ccedil;&atilde;o na base de dados</a></li></h2>
+<p>O prop&oacute;sito do <b>Metabase</b> &eacute; de ser usado para aceder ao <i>SGBD</i> usando <i>SQL</i>.  Os programadores de aplica&ccedil;&otilde;es de bases de dados pode construir e executar livremente as consultas <i>SQL</i> que as suas aplica&ccedil;&otilde;es precisam para enviar e receber informa&ccedil;&atilde;o para o servidor de base de dados.</p>
+<ul>
+<h3><li><a name="34.2.1">Fun&ccedil;&otilde;es ou Objectos?</a></li></h3>
+<p>O <b>Metabase</b> disponibiliza duas formas equivalentes de invocar as suas fun&ccedil;&otilde;es: usar um conjunto de fun&ccedil;&otilde;es globais ou invocar directamente as fun&ccedil;&otilde;es dos objectos das classes <i>driver</i>.</p>
+<p>Invocar directamente as fun&ccedil;&otilde;es dos objectos <i>driver</i> &eacute; ligeiramente mais r&aacute;pido e requer que os programadores digitem menos caracteres para escrever chamadas &agrave;s fun&ccedil;&otilde;es do <b>Metabase</b> nos seus programas.</p>
+<p>No entanto, esta forma n&atilde;o funciona com o PHP 3. Dado que o desenvolvimento do <b>Metabase</b> foi iniciado quando existia apenas o PHP 3, a forma de invoca&ccedil;&atilde;o usando fun&ccedil;&otilde;es globais foi mantida para assegurar a compatibilidade das aplica&ccedil;&otilde;es que usam <b>Metabase</b> desde h&aacute; muito tempo.</p>
+<p>Se pretende usar o <b>Metabase</b> apenas com PHP 4 ou melhor, pode usar as fun&ccedil;&otilde;es do objecto <i>driver</i> directamente. Nesse caso, tamb&eacute;m pode misturar o uso de ambas as formas de invocar as fun&ccedil;&otilde;es dos objectos <i>driver</i>. Para fazer isso precisa usar a fun&ccedil;&atilde;o <tt>MetabaseSetupDatabaseObject</tt> em vez de <tt>MetabaseSetupDatabase</tt> como est&aacute; descrito mais abaixo.</p>
+<p>A fun&ccedil;&atilde;o <tt>MetabaseSetupDatabaseObject</tt> retorna por refer&ecirc;ncia um objecto da classe <i>driver</i> de base de dados do tipo especificado. &Eacute; necess&aacute;rio usar refer&ecirc;ncias para passar objectos para fun&ccedil;&otilde;es ou para atribuir um valor de um objecto a outra vari&aacute;vel. Passar objectos por valor pode originar problemas que t&ecirc;em de ser evitados para n&atilde;o ficar com duas c&oacute;pias distintas dos objectos <i>driver</i>. Isso poderia levar a eventuais inconsist&ecirc;ncias da informa&ccedil;&atilde;o armazenada nos objectos <i>driver</i>.</p>
+<p>Explicar os conceitos de refer&ecirc;ncias e objectos est&aacute; fora do &acirc;mbito deste documento de introdu&ccedil;&atilde;o. Se precisa passar um objecto <i>driver</i> para fun&ccedil;&otilde;es ou atribuir o seu valor a outra vari&aacute;vel mas tem dificuldade em entender estes conceitos de objectos e refer&ecirc;ncias, &eacute; recomend&aacute;vel que apenas use as fun&ccedil;&otilde;es globais do <b>Metabase</b>.</p>
+</ul>
+<ul>
+<h3><li><a name="35.2.1">Configura&ccedil;&atilde;o do acesso &agrave; base de dados</a></li></h3>
+<p>A primeira coisa que &eacute; necess&aacute;rio fazer para aceder a uma base de dados &eacute; configurar a liga&ccedil;&atilde;o ao servidor do <i>SGBD</i> a partir dos <i>scripts</i> da sua aplica&ccedil;&atilde;o.</p>
+<p>A liga&ccedil;&atilde;o ao servidor &eacute; definida invocando a fun&ccedil;&atilde;o <tt>MetabaseSetupDatabase</tt>.  Esta fun&ccedil;&atilde;o n&atilde;o estabelece uma liga&ccedil;&atilde;o ao servidor imediatamente. Apenas configura alguns par&acirc;metros que a classe <i>driver</i> do <i>SGBD</i> precisa para saber como comunicar com o servidor de base de dados pretendido.  Normalmente a liga&ccedil;&atilde;o com o servidor de base de dados &eacute; estabelecida mais tarde apenas quando cada <i>script</i> executa a primeira consulta.</p>
+<p>A fun&ccedil;&atilde;o <tt>MetabaseSetupDatabase</tt> recebe como argumento um <i>array</i> associativo com as op&ccedil;&otilde;es da liga&ccedil;&atilde;o. A entrada <tt>Type</tt> do <i>array</i> &eacute; obrigat&oacute;ria e deve indicar a designa&ccedil;&atilde;o do tipo de classe <i>driver</i> que comunicar&aacute; com o tipo de <i>SGBD</i> escolhido. Por exemplo, se pretende ligar a um servidor de <i>SGBD</i> <i>MySQL</i>, defina a entrada <tt>Type</tt> como sendo <tt>mysql</tt>.</p>
+<p>Pode ser necess&aacute;rio especificar outros argumentos no <i>array</i> dependendo do tipo de classe <i>driver</i> escolhido.  Por favor, consulte o manual do <b>Metabase</b> para saber qual &eacute; a designa&ccedil;&atilde;o dos outros tipos de <i>SGBD</i> suportados e os respectivos argumentos adicionais.</p>
+<p>O segundo argumento da fun&ccedil;&atilde;o <tt>MetabaseSetupDatabase</tt> &eacute; uma refer&ecirc;ncia a uma vari&aacute;vel que ser&aacute; usada para armazenar um identificador de acesso &agrave; base de dados.  Este identificador de acesso &eacute; importante porque deve ser passado como argumento para todas as fun&ccedil;&otilde;es do <b>Metabase</b> que s&atilde;o usadas para aceder &agrave; base de dados.</p>
+<p>A fun&ccedil;&atilde;o <tt>MetabaseSetupDatabase</tt> pode falhar devido a inconsist&ecirc;ncia dos valores dos argumentos que forem passados.  Em caso de falha, esta fun&ccedil;&atilde;o retorna um texto que descreve o erro que originou a falha.  Verifique sempre o valor retornado por esta fun&ccedil;&atilde;o, pelo menos quando est&aacute; a verificar se a sua aplica&ccedil;&atilde;o de base de dados funciona correctamente.</p>
+<p>Aqui segue um exemplo do uso da fun&ccedil;&atilde;o <tt>MetabaseSetupDatabase</tt>:</p>
+<p><tt>&lt;?php<br />
+</tt></p>
+<ul>
+<p><tt>require(&quot;metabase_interface.php&quot;);<br />
+require(&quot;metabase_database.php&quot;);</tt></p>
+</ul>
+<p>Incluir os ficheiros necess&aacute;rios.</p>
+<ul>
+<p><tt>$erro=MetabaseSetupDatabase(array(</tt></p>
+<ul>
+<p><tt>&quot;Type&quot;=&gt;&quot;mysql&quot;,</tt><br />
+<tt>&quot;User&quot;=&gt;&quot;nome_do_utilizador_mysql&quot;,</tt><br />
+<tt>&quot;Password&quot;=&gt;&quot;senha_do_utilizador_mysql&quot;</tt></p>
+</ul>
+<p><tt>), $base_de_dados);</tt><br />
+<tt>if($erro!=&quot;&quot;)</tt><br />
+<tt>{</tt></p>
+<ul>
+<p><tt>echo &quot;Erro de configura&ccedil;&atilde;o da base de dados: $erro\n&quot;;</tt><br />
+<tt>exit;</tt></p>
+</ul>
+<p><tt>}</tt></p>
+</ul>
+<p>A fun&ccedil;&atilde;o <tt>MetabaseSetupDatabase</tt> cria um objecto da classe <i>driver</i> para aceder &agrave; base de dados e inicializa algumas vari&aacute;veis. A fun&ccedil;&atilde;o inicializa o argumento <tt>$base_de_dados</tt> com um valor inteiro que &eacute; uma refer&ecirc;ncia indirecta para o objecto da classe <i>driver</i> que foi criado.  Este valor inteiro funciona como um identificador de acesso &agrave; base de dados que deve ser passado como argumento para outras fun&ccedil;&otilde;es do <b>Metabase</b>.</p>
+<ul>
+<p><tt>MetabaseSetDatabase($base_de_dados,&quot;teste&quot;);</tt></p>
+</ul>
+<p><tt>?&gt;</tt></p>
+<p>Antes de poder aceder a um servidor de base de dados, normalmente &eacute; necess&aacute;rio especificar o nome da base de dados que pretende aceder usando a fun&ccedil;&atilde;o <tt>MetabaseSetDatabase</tt>.</p>
+<h3><li><a name="40.2.2">Invocar as fun&ccedil;&otilde;es dos objectos <i>driver</i> directamente</a></li></h3>
+<p>Se prefere invocar directamente as fun&ccedil;&otilde;es dos objectos driver, ent&atilde;o precisa usar a fun&ccedil;&atilde;o <tt>MetabaseSetupDatabaseObject</tt> em vez de <tt>MetabaseSetupDatabase</tt>. A fun&ccedil;&atilde;o <tt>MetabaseSetupDatabaseObject</tt> returna um objecto de uma classe <i>driver</i> que deve ser usado para invocar directamente as fun&ccedil;&otilde;es do objecto <i>driver</i>.</p>
+<p>Neste documento de introdu&ccedil;&atilde;o s&atilde;o usadas apenas as fun&ccedil;&otilde;es globais do <b>Metabase</b>. Para fazer com que os exemplos apresentados usem chamadas directas aos objectos <i>driver</i>, apenas retire o prefixo <tt>Metabase</tt> do nome das fun&ccedil;&otilde;es e o argumento <tt>$base_de_dados</tt> e fa&ccedil;a uma chamada ao objecto usando a vari&aacute;vel que foi retornada pela fun&ccedil;&atilde;o <tt>MetabaseSetupDatabaseObject</tt>.</p>
+<p>Aqui segue o exemplo acima para configura&ccedil;&atilde;o de acesso &agrave; base de dados, mas aqui usando a fun&ccedil;&atilde;o <tt>MetabaseSetupDatabaseObject</tt>:</p>
+<p><tt>&lt;?php<br />
+</tt></p>
+<ul>
+<p><tt>require(&quot;metabase_interface.php&quot;);<br />
+require(&quot;metabase_database.php&quot;);</tt></p>
+<p><tt>$erro=MetabaseSetupDatabaseObject(array(</tt></p>
+<ul>
+<p><tt>&quot;Type&quot;=&gt;&quot;mysql&quot;,</tt><br />
+<tt>&quot;User&quot;=&gt;&quot;nome_do_utilizador_mysql&quot;,</tt><br />
+<tt>&quot;Password&quot;=&gt;&quot;senha_do_utilizador_mysql&quot;</tt></p>
+</ul>
+<p><tt>), $bd);</tt><br />
+<tt>if($erro!=&quot;&quot;)</tt><br />
+<tt>{</tt></p>
+<ul>
+<p><tt>echo &quot;Erro de configura&ccedil;&atilde;o da base de dados: $erro\n&quot;;</tt><br />
+<tt>exit;</tt></p>
+</ul>
+<p><tt>}</tt><br />
+ <tt>$bd-&gt;SetDatabase($base_de_dados,&quot;teste&quot;);</tt></p>
+</ul>
+<p>Mesmo assim ainda pode invocar as fun&ccedil;&otilde;es globais do <b>Metabase</b> obtendo o valor da vari&aacute;vel do objecto <i>driver</i> chamada <tt>database</tt> e us&aacute;-la como identificador de acesso &agrave; base de dados. Neste caso, a chamada acima para definir a base de dados de trabalho poder&aacute; aparecer assim:</p>
+<ul>
+<p><tt>MetabaseSetDatabase($bd-&gt;database,&quot;teste&quot;);</tt></p>
+</ul>
+<p><tt>?&gt;</tt></p>
+<h3><li><a name="44.2.3">Executar consultas &agrave; base de dados</a></li></h3>
+<p>O <b>Metabase</b> dispobiliza duas formas de construir e executar consultas &agrave; base de dados: consultas directas e consultas preparadas.</p>
+<ul>
+<h4><li><a name="45.3.1">Consultas directas</a></li></h4>
+<p>Consultas directas s&atilde;o aquelas que s&atilde;o executadas simplesmente passando o comando <i>SQL</i> para o <i>SGBD</i>.  Para executar uma consulta directa use a fun&ccedil;&atilde;o <tt>Query</tt>.  Esta fun&ccedil;&atilde;o recebe um identificador de acesso &agrave; base de dados e um comando de consulta <tt>SQL</tt> como argumentos.  Aqui segue um exemplo:</p>
+<p><tt>$consulta=&quot;SELECT nome,senha FROM utilizadores&quot;;</tt><br />
+<tt>$resultado=$bd-&gt;Query($consulta);</tt></p>
+<p>O valor retornado &eacute; um n&uacute;mero inteiro que determina se a consulta foi executada com sucesso.  Se o valor for <tt>0</tt> significa que a consulta falhou.  Para consultas do tipo <tt>SELECT</tt> o valor retornado &eacute; um identificador do resultado.  Este identificador deve ser usado para obter os dados retornados pela consulta.</p>
+<p>Os comandos das consultas cont&eacute;m frequentemente valores literais como no seguinte exemplo:</p>
+<p><tt>$consulta=&quot;SELECT nome,senha FROM utilizadores WHERE nome_de_acesso='administrador'&quot;;</tt><br />
+<tt>$resultado=$bd-&gt;Query($consulta);</tt></p>
+<p>As consultas podem ser construidas manualmente inserindo os valores literais no texto do comando da consulta. Por&eacute;m, <i>SGBD</i> diferentes podem necessitar que os valores literais sejam representados de maneiras diferentes.</p>
+<p>Por exemplo, valores literais de texto podem necessitar que se insiram prefixos antes de caracteres especiais como <tt>'</tt>.  Valores literais de datas podem ser representados por inteiros em vez de texto se o <i>SGBD</i> n&atilde;o suportar tipos de dados nativos para representar datas.</p>
+<p>Felizmente, o <b>Metabase</b> disponibiliza um conjunto de fun&ccedil;&otilde;es de convers&atilde;o que evita a necessidade de passar valores literais num formato apropriado para o tipo de <i>SGBD</i> com o qual se pretende comunicar. Estas fun&ccedil;&otilde;es invocam as respectivas fun&ccedil;&otilde;es da classe <i>driver</i> para fazer alguma convers&atilde;o do formato de representa&ccedil;&atilde;o que possa ser necess&aacute;rio.</p>
+<p>Assim &eacute; poss&iacute;vel desenvolver applica&ccedil;&otilde;es de base de dados que s&atilde;o altamente port&aacute;teis sem a preocupa&ccedil;&atilde;o com os diferentes tipos de convers&atilde;o de valores literais que precisam ser feitos para aceder a diferentes <i>SGBD</i>.</p>
+<p>Por cada tipo de dados suportado pelo <b>Metabase</b> existe uma fun&ccedil;&atilde;o para convers&atilde;o de valores literais, excepto para valores inteiros porque estes porque &eacute; improv&aacute;vel que estes sejam representados de forma diferente em algum <i>DBMS</i>.  Aqui segue a lista completa de fun&ccedil;&otilde;es de convers&atilde;o de valores literais :</p>
+<ul>
+<p><li><tt>$bd-&gt;GetTextFieldValue($valor)</tt></li></p>
+<p><li><tt>$bd-&gt;GetBooleanFieldValue($valor)</tt></li></p>
+<p><li><tt>$bd-&gt;GetDateFieldValue($valor)</tt></li></p>
+<p><li><tt>$bd-&gt;GetTimestampFieldValue($valor)</tt></li></p>
+<p><li><tt>$bd-&gt;GetTimeFieldValue($valor)</tt></li></p>
+<p><li><tt>$bd-&gt;GetFloatFieldValue($valor)</tt></li></p>
+<p><li><tt>$bd-&gt;GetDecimalFieldValue($valor)</tt></li></p>
+</ul>
+<p>Usando fun&ccedil;&otilde;es de convers&atilde;o de valores literais para a execu&ccedil;&atilde;o da consulta mencionada acima, essa consulta seria reescrita assim:</p>
+<p><tt>$consulta=&quot;SELECT nome,senha FROM utilizadores WHERE nome_de_acesso=&quot;. $bd-&gt;GetTextFieldValue(&quot;administrador&quot;);</tt><br />
+<tt>$resultado=$bd-&gt;Query($consulta);</tt></p>
+<p>Converter valores literais antes de executar consultas requer um pequeno esfor&ccedil;o adicional, mas considerando a flexibilidade que &eacute; ganha a partir de maior portabilidade da sua aplica&ccedil;&atilde;o, &eacute; um esfor&ccedil;o que vale a pena e por isso &eacute; extensivamente recomendado que o fa&ccedil;a.</p>
+<h4><li><a name="46.3.2">Consultas preparadas</a></li></h4>
+<p>Consultas preparadas s&atilde;o comandos <i>SQL</i> que precisam ser preparados antes de serem executados.  Executar uma consulta preparada demora menos tempo do que executar uma consulta n&atilde;o preparada porque as consultas preparadas j&aacute; foram previamente interpretadas no momento em que s&atilde;o executadas.</p>
+<p>Usar consultas preparadas para as executar apenas uma vez num <i>script</i> n&atilde;o demora menos tempo que usar apenas consultas directas. As consultas preparadas s&atilde;o mais recomendadas quando &eacute; necess&aacute;rio executar uma consulta mais de uma vez no mesmo <i>script</i>.</p>
+<p>As consultas preparadas podem ter argumentos.  Quando uma consulta preparada &eacute; executada os valores dos argumentos s&atilde;o inseridos em posi&ccedil;&otilde;es especiais do comando da consultas que s&atilde;o marcados por <tt>?</tt>.  Considere este exemplo que usa uma consulta directa:</p>
+<p><tt>$consulta=&quot;SELECT nome,senha FROM utilizadores WHERE nome_de_acesso=&quot;. $bd-&gt;GetTextFieldValue(&quot;administrador&quot;);</tt><br />
+<tt>$resultado=$bd-&gt;Query($consulta);</tt></p>
+<p>Esta consulta pode ser reescrita assim usando uma consulta preparada:</p>
+<p><tt>$consulta=&quot;SELECT nome, senha FROM utilizadores WHERE nome_de_acesso=?&quot;;</tt><br />
+<tt>$consulta_preparada=$bd-&gt;PrepareQuery($consulta);</tt></p>
+<p>Obter um identificador de consulta preparada.</p>
+<p><tt>if($consulta_preparada)</tt></p>
+<p>Assegure-se que a consulta foi preparada sem qualquer erro.</p>
+<p><tt>{</tt></p>
+<ul>
+<p><tt>$bd-&gt;QuerySetText($consulta_preparada, 1, &quot;administrador&quot;);</tt></p>
+</ul>
+<p>Atribuir o primeiro argumento da consulta o valor literal <tt>administrador</tt>.</p>
+<ul>
+<p><tt>$resultado=$bd-&gt;ExecuteQuery($consulta_preparada);</tt></p>
+</ul>
+<p><tt>}</tt></p>
+<p>Executar a consulta.  A partir daqui o tratamento de resultados da consulta &eacute; igual ao tratamento de resultados de consultas directas.</p>
+<p>As consultas preparadas podem ter muitos argumentos, todos identificados pela marca <tt>?</tt>.  Cada um tem um n&uacute;mero de ordem come&ccedil;ando a partir de <tt>1</tt>.</p>
+<p>Existe uma fun&ccedil;&atilde;o para atribuir valores de argumentos de consultas preparadas por cada tipo de dados suportado pelo <b>Metabase</b>.  No exemplo a fun&ccedil;&atilde;o <tt>QuerySetText</tt> foi usada para definir o valor de um argumento de texto. A fun&ccedil;&atilde;o <tt>QuerySetInteger</tt> deveria ser usada se o argumento fosse um n&uacute;mero inteiro, e assim em diante.  Se se pretender atribuir o valor <tt>NULL</tt> a um argumento, use a fun&ccedil;&atilde;o <tt>QuerySetNull</tt>.</p>
+<p>As consultas preparadas podem ser executadas v&aacute;rias vezes no mesmo <i>script</i> e os valores de todos ou parte dos argumentos podem ser mudados em cada vez antes de executar as consultas.</p>
+<p>Depois de executar uma consulta preparada todas as vezes que forem necess&aacute;rias num <i>script</i>, &eacute; necess&aacute;rio devolver todos os recursos que foram implicitamente reservados, invocando a fun&ccedil;&atilde;o <tt>FreePreparedQuery</tt>.</p>
+<p>Apesar das consultas preparadas serem mais apropriadas para uso em <i>scripts</i> em que &eacute; necess&aacute;rio executar a mesma consulta mais de uma vez, talvez considere mais limpo o seu uso mesmo quando s&atilde;o executadas apenas uma vez, dado que apenas usa comandos de consulta fixos e a convers&atilde;o de valores literais &eacute; tratada transparentemente por fun&ccedil;&otilde;es como <tt>SetQuery</tt>.</p>
+<h4><li><a name="48.3.3">Chaves auto-incrementais</a></li></h4>
+<p>Frequentemente as tabelas de uma base de dados t&ecirc;em um campo chave que cont&eacute;m valores que devem ser &uacute;nicos dentre todas as linhas da tabela. Uma forma de assegurar que os valores do campo chave s&atilde;o &uacute;nicos, consiste em defini-los como chaves auto-incrementais. Isso garante que o campo chave de cada nova linha que &eacute; inserida na tabela, seja inicializado com um novo valor inteiro.</p>
+<p>Os campos auto-incrementais s&atilde;o inicializados de formas que podem variar de uns <i>SGBD</i> para outros. O <b>Metabase</b> disponibiliza uma solu&ccedil;&atilde;o independente do <i>SGBD</i> para inicializar campos auto-incrementais e obter os valores inseridos que consistem em usar as fun&ccedil;&otilde;es <tt>GetNextKey</tt> e <tt>GetInsertedKey</tt> da seguinte forma:</p>
+<pre style="background-color: #ddddcc; ">
+
+ $bd-&gt;GetNextKey(&quot;utilizadores&quot;, $chave);
+
+ if($bd-&gt;Query(&quot;INSERT INTO utilizadores (id, nome_de_acesso, senha, lembrete, nome, endereco) VALUES (&quot;.$key.
+               &quot;, 'administrador', 'uma senha', 'lembra a senha', 'SuperUtilizador', 'admin@acme.com')&quot;)
+ &amp;&amp; $bd-&gt;GetInsertedKey(&quot;utilizadores&quot;, $id))
+
+   echo &quot;O registo do utilizador foi criado com sucesso com o identificador: &quot;, $id, &quot;\n&quot;;
+
+ else
+
+   echo &quot;Ocorreu um erro: &quot;,$bd-&gt;Error(),&quot;\n&quot;;
+
+</pre>
+<p>Alguns <i>SGBD</i> permitem a omiss&atilde;o do campo chave auto-incremental na consulta <tt>INSERT</tt>. Nesse caso n&atilde;o &eacute; necess&aacute;rio usar a fun&ccedil;&atilde;o <tt>GetNextKey</tt> para obter a express&atilde;o do valor do campo auto-incremental.</p>
+<pre style="background-color: #ddddcc; ">
+
+ if($bd-&gt;Query(&quot;INSERT INTO utilizadores (nome_de_acesso, senha, lembrete, nome, endereco) VALUES (&quot;.
+               &quot;'administrador', 'uma senha', 'lembra a senha', 'SuperUtilizador', 'admin@acme.com')&quot;)
+ &amp;&amp; $bd-&gt;GetInsertedKey(&quot;utilizadores&quot;, $id))
+
+   echo &quot;O registo do utilizador foi criado com sucesso com o identificador: &quot;, $id, &quot;\n&quot;;
+
+ else
+
+   echo &quot;Ocorreu um erro: &quot;,$bd-&gt;Error(),&quot;\n&quot;;
+
+</pre>
+<p>Verifique na sec&ccedil;&atilde;o dos <i>drivers dispon&iacute;veis</i> da documenta&ccedil;&atilde;o do <b>Metabase</b> para saber se a classe de <i>driver</i> do <i>SGBD</i> que pretende usar suporta a caracter&iacute;stica <tt>OmitInsertKey</tt>, para que possa determinar se o valor do campo auto-incremental pode ser omitido.</p>
+<p>Uma forma alternativa para inserir linhas em tabelas com campos auto-incrementais consiste em usar consultas preparadas consultas preparadas e as fun&ccedil;&otilde;es <tt>QuerySetKey</tt> e <tt>GetInsertedKey</tt> da seguinte forma:</p>
+<pre style="background-color: #ddddcc; ">
+
+ $consulta_preparada=$bd-&gt;PrepareQuery(
+   &quot;INSERT INTO utilizadores (id, nome_de_acesso, senha, lembrete, nome, endereco) VALUES (?, ?, ?, ?, ?, ?)&quot;);
+
+ if($consulta_preparada)
+ {
+   $bd-&gt;QuerySetKey($consulta_preparada, 1, &quot;utilizadores&quot;);
+   $bd-&gt;QuerySetText($consulta_preparada, 2, &quot;Administrador&quot;);
+   $bd-&gt;QuerySetText($consulta_preparada, 3, &quot;uma senha&quot;);
+   $bd-&gt;QuerySetText($consulta_preparada, 4, &quot;lembra a senha&quot;);
+   $bd-&gt;QuerySetText($consulta_preparada, 5, &quot;SuperUtilizador&quot;);
+   $bd-&gt;QuerySetText($consulta_preparada, 6, &quot;admin@acme.com&quot;);
+
+   if($bd-&gt;ExecuteQuery($consulta_preparada)
+   &amp;&amp; $bd-&gt;GetInsertedKey(&quot;utilizadores&quot;, $id))
+
+     echo &quot;O registo do utilizador foi criado com sucesso com o identificador: &quot;, $id, &quot;\n&quot;;
+
+   else
+
+     echo &quot;Ocorreu um erro: &quot;,$bd-&gt;Error(),&quot;\n&quot;;
+ }
+ else
+
+   echo &quot;Ocorreu um erro: &quot;,$bd-&gt;Error(),&quot;\n&quot;;
+
+</pre>
+<p>Se a classe <i>driver</i> do <i>SGBD</i> em uso suportar, o campo auto-incremental tamb&eacute;m pode ser omitido na consulta <tt>INSERT</tt> quando s&atilde;o usadas consultas preparadas.</p>
+</ul>
+<h3><li><a name="48.2.4">Obter os resultados de consultas</a></li></h3>
+<ul>
+<h4><li><a name="49.3.1">Buscar dados de resultados</a></li></h4>
+<p>Uma consulta tipo <tt>SELECT</tt> executada com sucesso retorna um valor que deve ser usado como identificador do resultado.  Este valor deve ser passado como argumento para todas as fun&ccedil;&otilde;es do <b>Metabase</b> que pode precisar usar para aceder aos resultados retornados pelas consultas que as suas aplica&ccedil;&otilde;es de base de dados executam.</p>
+<p>O identificador de resultados &eacute; apenas um n&uacute;mero inteiro que serve como refer&ecirc;ncia ao conjunto de resultados retornado &agrave; aplica&ccedil;&atilde;o pelo <i>SGBD</i> como resposta &agrave; consulta que foi executada.</p>
+<p>Um conjunto de resultados &eacute; uma esp&eacute;cie de tabela com colunas e linhas preenchidas com dados do resultado de uma consulta. Cada posi&ccedil;&atilde;o de um conjunto de resultados pode ser acedido atrav&eacute;s da fun&ccedil;&atilde;o <tt>FetchResult</tt>.</p>
+<p>Apesar das linhas de um conjunto de resultados n&atilde;o serem disponibilizadas a uma aplica&ccedil;&atilde;o de base de dados todas de uma vez, o <b>Metabase</b> permite que sejam pedidos dados do resultado especificando o n&uacute;mero da respectiva linha do conjunto de resultados. Os n&uacute;meros de linha do conjunto de resultados come&ccedil;am a partir de <tt>0</tt>.</p>
+<p>A fun&ccedil;&atilde;o <tt>FetchResult</tt> tamb&eacute;m requer que seja passada a identifica&ccedil;&atilde;o da coluna a partir da qual se pretende buscar os dados do resultado.  A identifica&ccedil;&atilde;o da coluna pode ser tanto o nome da coluna como o respectivo n&uacute;mero come&ccedil;ando em <tt>0</tt>.  O nome da coluna &eacute; o nome do campo ou a express&atilde;o que define a coluna na consulta <tt>SELECT</tt>.</p>
+<p>Aqui segue um exemplo simples da obten&ccedil;&atilde;o de uma linha do resultado de uma consulta:</p>
+<p><tt>$resultado=$bd-&gt;Query(&quot;SELECT nome,endereco FROM utilizadores&quot;);</tt><br />
+<tt>if($resultado!=0)</tt><br />
+<tt>{</tt></p>
+<ul>
+<p><tt>$nome=$bd-&gt;FetchResult($resultado, 0, &quot;nome&quot;);</tt><br />
+<tt>$endereco=$bd-&gt;FetchResult($resultado, 0, &quot;endereco&quot;);</tt></p>
+</ul>
+<p><tt>}</tt><br />
+<tt>else</tt></p>
+<ul>
+<p><tt>$erro=$bd-&gt;Error();</tt></p>
+</ul>
+<p>Apesar do uso dos nomes como identificadores das colunas tornar o c&oacute;digo das aplica&ccedil;&otilde;es mais limpo, o uso do n&uacute;mero de coluna &eacute; mais r&aacute;pido. Portanto, os comandos acima para buscar valores do resultado podem ser reescritos assim:</p>
+<p><tt>$nome=$bd-&gt;FetchResult($resultado, 0, 0);</tt><br />
+<tt>$endereco=$bd-&gt;FetchResult($resultado, 0, 1);</tt></p>
+<h4><li><a name="51.3.2">Convers&atilde;o do tipo de dados</a></li></h4>
+<p>A fun&ccedil;&atilde;o <tt>FetchResult</tt> obtem os dados tal como estes s&atilde;o retornados pelo <i>SGBD</i>.  O formato de representa&ccedil;&atilde;o dos dados para cada tipo de campo pode variar de <i>SGBD</i> para <i>SGBD</i>.</p>
+<p>Para evitar o problema de ter de tratar as diferen&ccedil;as de formato de representa&ccedil;&atilde;o dos dados na sua aplica&ccedil;&atilde;o de base de dados, o <b>Metabase</b> disponibiliza um conjunto de fun&ccedil;&otilde;es que buscam os dados dos resultados e j&aacute; os convertem para um &uacute;nico formato de representa&ccedil;&atilde;o definido para cada tipo de dados suportado.</p>
+<p>Por exemplo, independentemente de como cada <i>SGBD</i> representa os campos que guardam datas, a fun&ccedil;&atilde;o <tt>FetchDateResult</tt> retorna sempre um texto com a data representada no formato <i>ISO 8601</i>:  <tt>AAAA-MM-DD</tt>.  Isto simplifica muito o desenvolvimento de aplica&ccedil;&otilde;es de base de dados e promove a portabilidade do c&oacute;digo quando se usam diferentes tipos de <i>SGBD</i>.</p>
+<p>Nem todos os tipos de dados de resultados precisam ser convertidos.  Por exemplo, dados de resultados de texto ou n&uacute;meros inteiros podem ser sempre buscados com a fun&ccedil;&atilde;o <tt>FetchResult</tt>.  Aqui segue a lista completa de fun&ccedil;&otilde;es para buscar e converter dados de resultdados:</p>
+<ul>
+<p><li><tt>FetchBooleanResult</tt></li></p>
+<p><li><tt>FetchDecimalResult</tt></li></p>
+<p><li><tt>FetchFloatResult</tt></li></p>
+<p><li><tt>FetchDateResult</tt></li></p>
+<p><li><tt>FetchTimeResult</tt></li></p>
+<p><li><tt>FetchTimestampResult</tt></li></p>
+</ul>
+<h4><li><a name="52.3.3">Tratamento de valores <tt>NULL</tt></a></li></h4>
+<p>Existe um tipo de resultados de consulta que requer uma aten&ccedil;&atilde;o especial: <tt>NULL</tt>.  Os valores <tt>NULL</tt> n&atilde;o representam dados, mas sim a aus&ecirc;ncia de dados.  Um valor <tt>NULL</tt> pode ser retornado porque a posi&ccedil;&atilde;o do campo escolhido n&atilde;o cont&eacute;m informa&ccedil;&atilde;o ou porque o valor do resultado n&atilde;o pode ser calculado como por exemplo a determina&ccedil;&atilde;o do valor m&aacute;ximo de um dado campo de uma tabela que n&atilde;o cont&eacute;m quaisquer linhas.</p>
+<p>Como um valor <tt>NULL</tt> significa exactamente a aus&ecirc;ncia de dados, n&atilde;o se pode usar as fun&ccedil;&otilde;es para buscar dados de resultados para determinar se uma dada posi&ccedil;&atilde;o do resultado &eacute; <tt>NULL</tt>.</p>
+<p>Se n&atilde;o tem a certeza se uma dada posi&ccedil;&atilde;o de um resultado &eacute; <tt>NULL</tt>, ent&atilde;o deve usar a fun&ccedil;&atilde;o <tt>ResultIsNull</tt>. Aqui segue um exemplo:</p>
+<p><tt>if($bd-&gt;ResultIsNull($resultado, 0, &quot;nome&quot;))</tt></p>
+<ul>
+<p><tt>echo &quot;O nome n&atilde;o est&aacute; definido.&quot;</tt></p>
+</ul>
+<p><tt>else</tt></p>
+<ul>
+<p><tt>echo &quot;O nome &eacute;: &quot;.$bd-&gt;FetchResult($resultado, 0, &quot;nome&quot;);</tt></p>
+</ul>
+<h4><li><a name="54.3.4">Obter todas as linhas de um conjunto de resultados</a></li></h4>
+<p>Normalmente, as aplica&ccedil;&otilde;es de base de dados precisam percorrer o conjunto de resultados para obter todas as linhas com dados que s&atilde;o retornadas quando uma consulta &eacute; executada.</p>
+<p>Frequentemente &eacute; bastante &uacute;til saber adiantadamente qual &eacute; o n&uacute;mero total de linhas retornadas antes de come&ccedil;ar a percorrer o conjunto de resultados. A fun&ccedil;&atilde;o <tt>NumberOfRows</tt> serve para esse prop&oacute;sito.  Uma rotina t&iacute;pica para mostrar um conjunto de resultados pode ser algo semelhante a isto:</p>
+<p><tt>$resultado=$bd-&gt;Query(&quot;SELECT nome, endereco FROM utilizadores&quot;);</tt><br />
+<tt>if($resultados!=0)</tt><br />
+<tt>{</tt></p>
+<ul>
+<p><tt>$linhas=$bd-&gt;NumberOfRows($resultado);</tt><br />
+<tt>if($linhas&gt;0)</tt><br />
+<tt>{</tt></p>
+<ul>
+<p><tt>echo &quot;&lt;TABLE&gt;&lt;TR&gt;&lt;TH&gt;name&lt;/TH&gt;&lt;TH&gt;endereco&lt;/TH&gt;&lt;/TR&gt;&quot;;</tt><br />
+<tt>for($linha=0; $linha&lt;$linhas; $linha++)</tt><br />
+<tt>{</tt></p>
+<ul>
+<p><tt>echo &quot;&lt;TR&gt;&lt;TD&gt;&quot;, $bd-&gt;FetchResult($resultado, $linha, &quot;nome&quot;), &quot;&lt;/TD&gt;&quot;;</tt><br />
+<tt>echo &quot;&lt;TD&gt;&quot;, $bd-&gt;FetchResult($resultado, $linha, &quot;endereco&quot;), &quot;&lt;/TD&gt;&lt;/TR&gt;&quot;;</tt></p>
+</ul>
+<p><tt>}<br />
+echo &quot;&lt;/TABLE&gt;&quot;;</tt></p>
+</ul>
+<p><tt>}</tt><br />
+<tt>else</tt></p>
+<ul>
+<p><tt>echo &quot;&lt;P&gt;N&atilde;o existem linhas no conjunto de resultados.&lt;/P&gt;&quot;;</tt></p>
+</ul>
+<p><tt>}</tt><br />
+<tt>else</tt></p>
+<ul>
+<p><tt>$erro=$bd-&gt;Error();</tt></p>
+</ul>
+</ul>
+<p><tt>}</tt></p>
+<p>Apesar deste c&oacute;digo parecer limpo e simples h&aacute; um detalhe relevante que deve ser considerado antes de o usar para executar consultas que retornam um n&uacute;mero elevado de linhas de resultado.</p>
+<p>Alguns <i>SGBD</i>, tipicamente os mais sofisticados, come&ccedil;am a retornar linhas de resultado &agrave; medida que estas s&atilde;o encontradas nas tabelas da base de dados que est&atilde;o a ser pesquisadas. Isto significa que n&atilde;o &eacute; poss&iacute;vel saber o n&uacute;mero total de linhas contidas num conjunto de resultados antes que a pesquisa da consulta termine.</p>
+<p>Para esses tipos de <i>SGBD</i> a respectiva classe <i>driver</i> do <b>Metabase</b> implementa a fun&ccedil;&atilde;o que obtem o n&uacute;mero total de linhas do resultado, obtendo todas as linhas do resultado de uma s&oacute; vez. Esta circunst&acirc;ncia n&atilde;o s&oacute; torna essa fun&ccedil;&atilde;o mais lenta como consome mais mem&oacute;ria porque implica que a classe <i>driver</i> do <i>SGBD</i> armazene em mem&oacute;ria os dados de todas as linhas at&eacute; que os recursos que foram reservados para o conjunto de resultados sejam devolvidos atrav&eacute;s da fun&ccedil;&atilde;o <tt>FreeResult</tt>.</p>
+<p>Se realmente necessita saber antecipadamente o n&uacute;mero de linhas contidas num conjunto de resultados, uma poss&iacute;vel alternativa &eacute; executar primeiro uma consulta que apenas retorna o n&uacute;mero de linhas usando a fun&ccedil;&atilde;o de <i>SQL</i> <tt>COUNT</tt> assim:</p>
+<p><tt>$resultado=$bd-&gt;Query(&quot;SELECT COUNT(nome) FROM utilizadores&quot;);</tt><br />
+<tt>if($resultado)</tt></p>
+<ul>
+<p><tt>$linhas=$bd-&gt;FetchResult($resultado, 0, 0);</tt></p>
+</ul>
+<p><tt>else</tt></p>
+<ul>
+<p><tt>$erro=$bd-&gt;Error();</tt></p>
+</ul>
+<p>Se n&atilde;o precisa saber adiantadamente quantas linhas s&atilde;o retornadas num conjunto de resultados mas precisa saber quando o conjunto de resultados foi completamente percorrido, ent&atilde;o use a fun&ccedil;&atilde;o <tt>EndOfResult</tt>.  A rotina para mostrar os dados do conjunto de resultados poder&aacute; ser semelhante a isto:</p>
+<p><tt>$resultado=$bd-&gt;Query(&quot;SELECT name, endereco FROM users&quot;);</tt><br />
+<tt>if($resultado!=0)</tt><br />
+<tt>{</tt></p>
+<ul>
+<p><tt>$fim_do_resultado=$bd-&gt;EndOfResult($resultado);</tt><br />
+<tt>if($fim_do_resultado==0)</tt><br />
+<tt>{</tt></p>
+<ul>
+<p><tt>echo &quot;&lt;TABLE&gt;&lt;TR&gt;&lt;TH&gt;nome&lt;/TH&gt;&lt;TH&gt;endereco&lt;/TH&gt;&lt;/TR&gt;&quot;;</tt><br />
+<tt>for($linha=0; ($fim_do_resultado=$bd-&gt;EndOfResult($resultado))==0; $linha++)</tt><br />
+<tt>{</tt></p>
+<ul>
+<p><tt>echo &quot;&lt;TR&gt;&lt;TD&gt;&quot;, $bd-&gt;FetchResult($resultado, $linha, &quot;nome&quot;), &quot;&lt;/TD&gt;&quot;;</tt><br />
+<tt>echo &quot;&lt;TD&gt;&quot;, $bd-&gt;FetchResult($resultado, $linha, &quot;endereco&quot;), &quot;&lt;/TD&gt;&lt;/TR&gt;&quot;;</tt></p>
+</ul>
+<p><tt>}<br />
+echo &quot;&lt;/TABLE&gt;&quot;;</tt></p>
+</ul>
+<p><tt>}</tt><br />
+<tt>else</tt><br />
+<tt>{</tt></p>
+<ul>
+<p><tt>if($fim_do_resultado==1)</tt></p>
+<ul>
+<p><tt>echo &quot;&lt;P&gt;N&atilde;o existem linhas no conjunto de resultados.&lt;/P&gt;&quot;;</tt></p>
+</ul>
+</ul>
+<p><tt>}</tt><br />
+<tt>if($fim_do_resultado==-1)</tt></p>
+<ul>
+<p><tt>$erro=$bd-&gt;Error();</tt></p>
+</ul>
+<p><tt>}</tt><br />
+<tt>else</tt></p>
+<ul>
+<p><tt>$erro=$bd-&gt;Error();</tt></p>
+</ul>
+</ul>
+<p><tt>}</tt></p>
+<h4><li><a name="68.3.5">Devolver os recursos de mem&oacute;ria reservados para um conjunto de resultados</a></li></h4>
+<p>Quando tiver terminado de usar o conjunto de resultados de uma consulta, deve assegurar-se que todos os recursos de mem&oacute;ria implicitamente reservados s&atilde;o devolvidos ao sistema. Devolver os recursos reservados &eacute; importante porque isso reduz o uso de mem&oacute;ria que um <i>script</i> precisa para ser executado, permitindo que essa mem&oacute;ria seja reutilizada.</p>
+<p>Mesmo que o seu <i>script</i> termine logo a seguir a ter terminado de usar o conjunto de resultados de uma consulta, deve-se sempre devolver os recursos reservados para um conjunto de resultados de uma consulta porque o fim do <i>script</i> pode n&atilde;o implicar que os recursos sejam automaticamente devolvidos nessa altura.  Isto &eacute; particularmente verdade se estiver a usar liga&ccedil;&otilde;es persistentes &agrave; base de dados quando o PHP est&aacute; a ser usado como m&oacute;dulo do servidor <i>Web</i>.</p>
+<p>Com o <b>Metabase</b> deve-se usar a fun&ccedil;&atilde;o <tt>FreeResult</tt> e isso pode ser t&atilde;o simples como o seguinte:</p>
+<p><tt>$bd-&gt;FreeResult($resultado);</tt></p>
+</ul>
+<h3><li><a name="68.2.5">Tratamento de campos de grande porte</a></li></h3>
+<ul>
+<p>Os campos de grande porte, normalmente conhecidos por <i>Large OBject fields - LOBs</i> (<i>BLOBs/CLOBs</i>), necessitam de ter um tratamento especial. A quantidade de informa&ccedil;&atilde;o armazenada neste tipo de campos pode ser t&atilde;o grande que isso exigiria uma grande quantidade de mem&oacute;ria para armazenar ou obter toda a informa&ccedil;&atilde;o de uma s&oacute; vez usando apenas uma fun&ccedil;&atilde;o como com os outros tipos de campo.</p>
+<p>O <b>Metabase</b> disponibiliza um conjunto separado de fun&ccedil;&otilde;es para tratar de campos de grande porte.  Estas fun&ccedil;&otilde;es permitem  que as aplica&ccedil;&otilde;es tratem os valores deste tipo de campo dividindo a informa&ccedil;&atilde;o em peda&ccedil;os de tamanho menor.</p>
+<h4><li><a name="69.3.1">Cria&ccedil;&atilde;o de campos de grande porte em tabelas</a></li></h4>
+<p>Os campos de grande porte podem ser criados como qualquer outro tipo de campo, ou seja, declarando-os em ficheiros de descri&ccedil;&atilde;o de esquemas como campos de grande porte.</p>
+<p>Existem dois tipos de campos de grande porte: campos de caracteres e campos bin&aacute;rios. Os campos de caracteres podem ser usados quando se pretende apenas armazenar neles texto <i>ASCII</i>. Se pretende armazenar outros tipos de dados, ent&atilde;o use campos bin&aacute;rios</p>
+<p>Os campos de grande porte de caracteres devem ser declarados como sendo do tipo <tt>clob</tt>. Os campos de grande porte bin&aacute;rios devem ser declarados como sendo do tipo <tt>blob</tt>. Aqui segue um exemplo de declara&ccedil;&atilde;o de uma tabela com um campo de grande porte de caracteres e outro bin&aacute;rio:</p>
+<ul>
+<p><tt>&lt;table&gt;</tt></p>
+<ul>
+<p><tt>&lt;name&gt;ficheiros&lt;/name&gt;</tt></p>
+<p><tt>&lt;declaration&gt;</tt></p>
+<ul>
+<p><tt>&lt;field&gt; &lt;name&gt;id&lt;/name&gt;       &lt;type&gt;integer&lt;/type&gt; &lt;/field&gt;<br />
+&lt;field&gt; &lt;name&gt;documento&lt;/name&gt; &lt;type&gt;clob&lt;/type&gt;    &lt;/field&gt;<br />
+&lt;field&gt; &lt;name&gt;imagem&lt;/name&gt;  &lt;type&gt;blob&lt;/type&gt;    &lt;/field&gt;</tt></p>
+</ul>
+<p><tt>&lt;/declaration&gt;</tt></p>
+</ul>
+<p><tt>&lt;/table&gt;</tt></p>
+</ul>
+<h4><li><a name="72.3.2">Armazenar dados em campos de grande porte</a></li></h4>
+<p>Com o <b>Metabase</b>, armazenar dados em campos de grande porte s&oacute; pode ser feito executando consultas preparadas de comandos <i>SQL</i> <tt>INSERT</tt> ou <tt>UPDATE</tt>. Os valores dos campos de grande porte s&atilde;o passados para a base de dados como par&acirc;metros das consultas preparadas. As fun&ccedil;&otilde;es <tt>QuerySetCLOB</tt> e <tt>QuerySetBLOB</tt> devem ser usadas para especificar os valores dos campos de grande porte como par&acirc;metros de uma consulta preparada.</p>
+<p>Em vez de especificar os par&acirc;metros dos campos de grande porte atrav&eacute;s dos dados dos valores, &eacute; necess&aacute;rio passar uma refer&ecirc;ncia para objectos de classes especiais que sabem como obter os dados que ser&atilde;o armazenados nos campos de grande porte.</p>
+<p>Essas classes podem obter dados a partir de vari&aacute;veis de texto definidas atrav&eacute;s de programa&ccedil;&atilde;o como com qualquer outro tipo de campo, mas tamb&eacute;m podem obter os dados a partir de ficheiros.</p>
+<p>Aqui segue um exemplo de como executar uma consulta que insere dados definidos atrav&eacute;s de programa&ccedil;&atilde;o num campo de grande porte de caracteres:</p>
+<ul>
+<p><li>Prepara&ccedil;&atilde;o da consulta para inserir uma linha com um campo de grande porte de caracteres (<tt>document</tt>). Pode-se inserir linhas com v&aacute;rios campos de grande porte, mas neste exemplo apenas um campo &eacute; inserido.</li></p>
+<p><tt>if(($consulta_preparada=$bd-&gt;PrepareQuery(&quot;INSERT INTO ficheiros (id,documento,imagem) VALUES (1,?,NULL)&quot;)))<br />
+{</tt></p>
+<p><li>Criar um objecto de uma classe para tratar de campos de grande porte fornecendo dados definidos no programa para inserir no campo da tabela.</li></p>
+<ul>
+<p><tt>$lob_texto=array(</tt></p>
+<ul>
+<p><tt>&quot;Database&quot;=&gt;$bd-&gt;database,<br />
+&quot;Error&quot;=&gt;&quot;&quot;,<br />
+&quot;Data&quot;=&gt;&quot;muitos caracteres&quot;</tt></p>
+</ul>
+<p><tt>);<br />
+if(($sucesso=MetabaseCreateLOB($lob_texto, $clob)))<br />
+{</tt></p>
+</ul>
+<p><li>Definir o valor do par&acirc;metro do campo de grande porte de caracteres. Note que &eacute; necess&aacute;rio especificar o nome do campo da tabela em que ser&aacute; inserido o valor dos dados.</li></p>
+<ul>
+<ul>
+<p><tt>$bd-&gt;QuerySetCLOB($consulta_preparada, 1, $clob, &quot;documento&quot;);</tt></p>
+</ul>
+</ul>
+<p><li>Executar a consulta preparada.</li></p>
+<ul>
+<ul>
+<p><tt>if(!$bd-&gt;ExecuteQuery($consulta_preparada))</tt></p>
+<ul>
+<p><tt>$erro=$bd-&gt;Error();</tt></p>
+</ul>
+</ul>
+</ul>
+<p><li>Devolver os recursos reservados pelo objecto da classe que trata de campos de grande porte.</li></p>
+<ul>
+<ul>
+<p><tt>MetabaseDestroyLOB($clob);</tt></p>
+</ul>
+<p><tt>}</tt></p>
+</ul>
+<p><li>Se a cria&ccedil;&atilde;o do objecto da classe que trata de campos de grande porte falhar, obtenha a mensagem de erro.</li></p>
+<ul>
+<p><tt>else</tt></p>
+<ul>
+<p><tt>$erro=$character_lob[&quot;Error&quot;];</tt></p>
+</ul>
+</ul>
+<p><li>Devolver os recursos reservados para a consulta preparada.</li></p>
+<ul>
+<p><tt>$bd-&gt;FreePreparedQuery($consulta_preparada);</tt></p>
+</ul>
+<p><tt>}<br />
+else</tt></p>
+<ul>
+<p><tt>$erro=$bd-&gt;Error();</tt></p>
+</ul>
+</ul>
+<p>Aqui segue um exemplo de como executar uma consulta que actualiza um campo de grande porte bin&aacute;rio a partir de dados de um ficheiro. Assegure-se que apenas uma linha da tabela &eacute; afectadas por esta consulta porque alguns <i>SGBD</i> n&atilde;o s&atilde;o capazes de actualizar os valores de campos de grande porte em mais de uma linha por consulta.</p>
+<ul>
+<p><li>Preparar a consulta para actualizar uma linha com um campo de grande porte bin&aacute;rio (<tt>imagem</tt>).</li></p>
+<p><tt>if(($consulta_preparada=$bd-&gt;PrepareQuery(&quot;UPDATE files SET imagem=? WHERE id=1&quot;)))<br />
+{</tt></p>
+<p><li>Criar um objecto de uma classe para tratar de campos de grande porte fornecendo dados de um ficheiro.</li></p>
+<ul>
+<p><tt>$lob_binario=array(</tt></p>
+<ul>
+<p><tt>&quot;Database&quot;=&gt;$bd-&gt;database,<br />
+&quot;Error&quot;=&gt;&quot;&quot;,<br />
+&quot;Type&quot;=&gt;&quot;inputfile&quot;,<br />
+&quot;FileName&quot;=&gt;&quot;minha_imagem.gif&quot;</tt></p>
+</ul>
+<p><tt>);<br />
+if(($sucesso=MetabaseCreateLOB($lob_binario, $blob)))<br />
+{</tt></p>
+</ul>
+<p><li>Definir o valor do par&acirc;metro do campo de grande porte de bin&aacute;rio. Tamb&eacute;m &eacute; necess&aacute;rio especificar o nome do campo a actualizar atrav&eacute;s de consultas <i>SQL</i> <tt>UPDATE</tt>.</li></p>
+<ul>
+<ul>
+<p><tt>$bd-&gt;QuerySetBLOB($consulta_preparada,1, $blob,&quot;imagem&quot;);</tt></p>
+</ul>
+</ul>
+<p><li>Executar a consulta preparada.</li></p>
+<ul>
+<ul>
+<p><tt>if(!$bd-&gt;ExecuteQuery($consulta_preparada))</tt></p>
+<ul>
+<p><tt>$erro=$bd-&gt;Error();</tt></p>
+</ul>
+<p><tt>MetabaseDestroyLOB($blob);</tt></p>
+</ul>
+<p><tt>}<br />
+else</tt></p>
+<ul>
+<p><tt>$erro=$binary_lob[&quot;Error&quot;];</tt></p>
+</ul>
+<p><tt>$bd-&gt;FreePreparedQuery($consulta_preparada);</tt></p>
+</ul>
+<p><tt>}<br />
+else</tt></p>
+<ul>
+<p><tt>$erro=$bd-&gt;Error();</tt></p>
+</ul>
+</ul>
+<h4><li><a name="96.3.3">Obter dados a partir de campos de grande porte</a></li></h4>
+<p>Obter dados de um campo de grande porte &eacute; feito atrav&eacute;s da execu&ccedil;&atilde;o de consultas <i>SQL</i> <tt>SELECT</tt> normais.</p>
+<p>As fun&ccedil;&otilde;es <tt>FetchCLOBResult</tt> e <tt>FetchBLOBResult</tt> retornam um valor que identifica um objecto de uma classe que trata de valores de campos de grande porte. Os dados podem ser obtidos usando a fun&ccedil;&atilde;o <tt>MetabaseReadLOB</tt>. Alternativamente, o identificador do objecto pode ser passado para outra classe que busca os dados do campo de grande porte retornado como resultado da consulta e pode processar esses dados de alguma forma &uacute;til, como por exemplo armazenar os dados num ficheiro.</p>
+<p>Aqui segue um exemplo de como escolher um campo de grande porte de caracteres e mostrar o seu conte&uacute;do:</p>
+<ul>
+<p><li>Executar a consulta <i>SQL</i> <tt>SELECT</tt>. Mais de um campo de grande porte pode ser seleccionado pela mesma consulta.</li></p>
+<p><tt>if(($resultado=$bd-&gt;Query(&quot;SELECT documento FROM ficheiros WHERE id=1&quot;)))<br />
+{</tt></p>
+<p><li>Verificar se existem linhas de resultado verificando se j&aacute; se chegou ao final do conjunto de resultados.</li></p>
+<ul>
+<p><tt>if($bd-&gt;EndOfResult($resultado))</tt></p>
+<ul>
+<p><tt>echo &quot;N&atilde;o foram retornadas quaisquer linhas de resultado.\n&quot;;</tt></p>
+</ul>
+<p><tt>else<br />
+{</tt></p>
+</ul>
+<p><li>Obter o identificador do objecto do campo de grande porte para uma dada coluna de uma linha do resultado. Normalmente isto funciona correctamente, mas se ocorrer um erro inesperado, &eacute; retornado o valor <tt>0</tt>. Se n&atilde;o tem a certeza se a coluna escolhida pode conter <tt>NULL</tt>, use a fun&ccedil;&atilde;o <tt>ResultIsNull</tt> aqui para verificar isso primeiro.</li></p>
+<ul>
+<ul>
+<p><tt>$clob=$bd-&gt;FetchCLOBResult($resultado,0,&quot;documento&quot;);<br />
+if($clob)<br />
+{</tt></p>
+</ul>
+</ul>
+<p><li>Ler os dados a partir do campo de grande porte seleccionado at&eacute; que se chegue ao final dos dados do campo.</li></p>
+<ul>
+<ul>
+<ul>
+<p><tt>while(!MetabaseEndOfLOB($clob))<br />
+{</tt></p>
+</ul>
+</ul>
+</ul>
+<p><li>Se for retornado um valor negativo para o comprimento dos dados lidos, isso signfica que ocorreu um erro.</li></p>
+<ul>
+<ul>
+<ul>
+<ul>
+<p><tt>if(MetabaseReadLOB($clob, $dados,8000)&lt;0)<br />
+{</tt></p>
+<ul>
+<p><tt>$erro=MetabaseLOBError($clob);<br />
+break;</tt></p>
+</ul>
+<p><tt>}</tt></p>
+</ul>
+</ul>
+</ul>
+</ul>
+<p><li>Se pelo contr&aacute;rio os dados foram lidos correctamente, continue mostrando o seu conte&uacute;do.</li></p>
+<ul>
+<ul>
+<ul>
+<ul>
+<p><tt>echo $dados;</tt></p>
+</ul>
+<p><tt>}</tt></p>
+</ul>
+</ul>
+</ul>
+<p><li>Devolver os recursos reservados pelo objecto da classe que trata de resultados do campo de grande porte.</li></p>
+<ul>
+<ul>
+<ul>
+<p><tt>MetabaseDestroyLOB($clob);</tt></p>
+</ul>
+<p><tt>}<br />
+else</tt></p>
+</ul>
+</ul>
+<p><li>Se n&atilde;o foi poss&iacute;vel obter os dados do valor do campo de grande porte, determine o que ocorreu obtendo a mensagem de erro.</li></p>
+<ul>
+<ul>
+<ul>
+<p><tt>$erro=$bd-&gt;Error();</tt></p>
+</ul>
+</ul>
+<p><tt>}</tt></p>
+</ul>
+<p><li>Devolver os recursos reservados para o resultado da consulta.</li></p>
+<ul>
+<p><tt>$bd-&gt;FreeResult($resultado);</tt></p>
+</ul>
+<p><tt>}<br />
+else</tt></p>
+<ul>
+<p><tt>$erro=$bd-&gt;Error();</tt></p>
+</ul>
+</ul>
+<p>Aqui segue um exemplo de como seleccionar um campo de grande porte bin&aacute;rio e gravar o seu conte&uacute;do num ficheiro.</p>
+<ul>
+<p><li>Executar a consulta <i>SQL</i> <tt>SELECT</tt>.</li></p>
+<p><tt>if(($resultado=$bd-&gt;Query(&quot;SELECT imagem FROM ficheiros WHERE id=1&quot;)))<br />
+{</tt></p>
+<ul>
+<p><tt>if($bd-&gt;EndOfResult($resultado))</tt></p>
+<ul>
+<p><tt>echo &quot;N&atilde;o foram retornadas quaisquer linhas do resultado.\n&quot;;</tt></p>
+</ul>
+<p><tt>else<br />
+{</tt></p>
+</ul>
+<p><li>Criar o objecto da classe para guardar dados em ficheiros.</li></p>
+<ul>
+<ul>
+<p><tt>$lob_binario=array(</tt></p>
+<ul>
+<p><tt>&quot;Type&quot;=&gt;&quot;outputfile&quot;,<br />
+&quot;Database&quot;=&gt;$bd-&gt;database,<br />
+&quot;Result&quot;=&gt;$resultado,<br />
+&quot;Row&quot;=&gt;0,<br />
+&quot;Field&quot;=&gt;&quot;imagem&quot;,<br />
+&quot;Binary&quot;=&gt;1,<br />
+&quot;Error&quot;=&gt;&quot;&quot;,<br />
+&quot;FileName&quot;=&gt;&quot;minha_imagem.gif&quot;</tt></p>
+</ul>
+<p><tt>);<br />
+if(($sucesso=MetabaseCreateLOB($lob_binario, $blob)))<br />
+{</tt></p>
+</ul>
+</ul>
+<p><li>Ler todo conte&uacute;do do campo de grande porte e escrever os dados num dado ficheiro especificando um comprimento de leitura de <tt>0</tt> <i>bytes</i>. N&atilde;o s&atilde;o retornados quaisquer dados na vari&aacute;vel de argumento <tt>$dados</tt>.</li></p>
+<ul>
+<ul>
+<ul>
+<p><tt>if(MetabaseReadLOB($blob, $dados,0)&lt;0)<br />
+{</tt></p>
+</ul>
+</ul>
+</ul>
+<p><li>Se for retornado um valor negativo para o comprimento dos dados lidos, isso significa que ocorreu um erro.</li></p>
+<ul>
+<ul>
+<ul>
+<ul>
+<p><tt>$erro=MetabaseLOBError($blob);<br />
+$sucesso=0;</tt></p>
+</ul>
+<p><tt>}<br />
+MetabaseDestroyLOB($blob);</tt></p>
+</ul>
+<p><tt>}<br />
+else</tt></p>
+</ul>
+</ul>
+<p><li>Se n&atilde;o for poss&iacute;vel criar o objecto da classe que guarda os dados num ficheiro, determine o que ocorreu obtendo a mensagem de erro.</li></p>
+<ul>
+<ul>
+<ul>
+<p><tt>$erro=$lob_binario[&quot;Error&quot;];</tt></p>
+</ul>
+</ul>
+<p><tt>}<br />
+$bd-&gt;FreeResult($resultado);</tt></p>
+</ul>
+<p><tt>}<br />
+else</tt></p>
+<ul>
+<p><tt>$erro=$bd-&gt;Error();</tt></p>
+</ul>
+</ul>
+</ul>
+</ul>
+<h2><li><a name="138.1.5">Actualizar o esquema de uma base de dados</a></li></h2>
+<p>Se por algum motivo precisar de actualizar o esquema da sua base de dados, o procedimento para instalar as altera&ccedil;&otilde;es do esquema &eacute; t&atilde;o simples quanto instalar o esquema pela primeira vez.</p>
+<p>De facto tudo o que &eacute; preciso fazer depois de alterar o ficheiro do seu esquema &eacute; executar o mesmo <i>script</i> que foi usado para instalar o esquema inicialmente.</p>
+<p>A classe de gest&atilde;o do <b>Metabase</b> analisar&aacute; a c&oacute;pia do esquema instalado anteriormente.  Tanto o novo esquema como o anterior s&atilde;o analisados e comparados para construir a lista de altera&ccedil;&otilde;es.</p>
+<p>Nessa altura tentar&aacute; instalar as altera&ccedil;&otilde;es solicitadas sem afectar os dados que foram armazenados na base de dados desde que foi instalada pela primeira vez.</p>
+<p>As classes de <i>driver</i> do <b>Metabase</b> para alguns <i>SGBD</i> n&atilde;o s&atilde;o capazes de implementar todos os tipos de altera&ccedil;&otilde;es. Se foram solicitadas altera&ccedil;&otilde;es que n&atilde;o poder&atilde;o ser instaladas, a fun&ccedil;&atilde;o <tt>UpdateDatabase</tt> falhar&aacute; sem afectar nada na base de dados.</p>
+<p>A tentativa de alterar uma base de dados &eacute; segura neste n&iacute;vel mas &eacute; sempre mais seguro fazer uma c&oacute;pia de seguran&ccedil;a da sua base de dados antes de instalar quaisquer altera&ccedil;&otilde;es porque por algum motivo inesperado o servidor do <i>SGBD</i> pode falhar.</p>
+</ul>
+
+<hr />
+<address>Manuel Lemos (<a href="mailto:mlemos-at-acm.org">mlemos-at-acm.org</a>)</address>
+</body>
+</html>

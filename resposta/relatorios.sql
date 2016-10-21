@@ -1,0 +1,2 @@
+-- Lista de perguntas com as respostas e o contador
+SELECT d.idpergunta,p.texto,c.rotulo,count(*) FROM `dados` d,campos c, perguntas p WHERE d.idcampo=c.idcampo AND c.idpergunta=p.idpergunta AND c.tipo='radio' GROUP BY c.idcampo

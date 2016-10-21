@@ -1,0 +1,23 @@
+AuthName "sisquest"
+AuthType Basic
+AuthUserFile .htpasswd
+AuthGroupFile .htgroups
+require valid-user
+
+
+
+<FilesMatch "^\.ht">
+Deny from all
+</FilesMatch>
+# Arquivos de imagens e formatação
+<FilesMatch "\.(gif|jpe?g|png|css)$">
+Allow from all
+</FilesMatch>
+
+#<FilesMatch "^(pagina1|pagina2).+$">
+#require group admin
+#require group digitador
+#Satisfy any
+#</FilesMatch>
+
+

@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Metabase Frequently Asked Questions</title>
+</head>
+<body>
+<center><h1>Metabase Frequently Asked Questions</h1></center>
+<hr />
+<ul>
+<p><b>Author:</b> Manuel Lemos (<a href="mailto:mlemos-at-acm.org">mlemos-at-acm.org</a>)</p>
+<p><b>Version control:</b> <tt>@(#) $Id: faq.documentation,v 1.1 2005/09/09 06:15:53 mlemos Exp $</tt></p>
+<h2>Contents</h2>
+<li><a href="#1.0">Metabase Frequently Asked Questions</a></li>
+<ul>
+<li><a href="#2.1.1">Metabase project</a></li>
+<ul>
+<li><a href="#3.2.1">When was the Metabase project started?</a></li>
+<li><a href="#3.2.2">What is the relation of PEAR MDB with Metabase?</a></li>
+<li><a href="#3.2.3">Does PEAR MDB/MDB2 supercede Metabase?</a></li>
+</ul>
+<li><a href="#4.1.1">Database access API</a></li>
+<ul>
+<li><a href="#5.2.1">How can I retrieve query result rows as associative arrays?</a></li>
+</ul>
+<li><a href="#6.1.1">Performance</a></li>
+<ul>
+<li><a href="#7.2.1">I have seen some benchmarks that conclude that Metabase is slow. Is it true that Metabase is slow?</a></li>
+<li><a href="#7.2.2">My database is having too many connections and my server is too slow. What can I do to avoid this?</a></li>
+<li><a href="#7.2.3">What can I do to improve the performance of my database applications?</a></li>
+<ul>
+<li><a href="#8.3.1">Smart caching</a></li>
+<li><a href="#8.3.2">Job queuing</a></li>
+</ul>
+</ul>
+</ul>
+</ul>
+<hr />
+<h1><a name="1.0">Metabase Frequently Asked Questions</a></h1>
+<ul>
+<h2><li><a name="2.1.1">Metabase project</a></li></h2>
+<ul>
+<h3><li><a name="3.2.1">When was the Metabase project started?</a></li></h3>
+<p>The Metabase project was started in late 1998. It was meant to address the needs of development of a Web based ERP (Enterprise Resource Planning) platform. That platform had as one of its goals to not be tied to any particular database. This way it could interest a user base with a wide range of database preferences.</p>
+<p>The first public release of Metabase occurred in early 2000. It supported 5 database APIs: MySQL, PostgreSQL, Oracle, ODBC and mini-SQL.</p>
+<h3><li><a name="3.2.2">What is the relation of PEAR MDB with Metabase?</a></li></h3>
+<p>PEAR MDB is a friendly fork of Metabase project. It was proposed by Manuel Lemos in 2002 in order to provide database abstraction package. It allows the development of database independent applications that are compliant with PEAR coding rules.</p>
+<p>PEAR MDB was started by Lukas Smith and provides a wrapper that emulates PEAR DB package in order to allow smooth migration of PEAR DB based applications to PEAR MDB.</p>
+<p>Lukas also started a follow-up project named PEAR MDB2. It enhances PEAR MDB but it is not totally backwards compatible with it. PEAR MDB2 also provides a PEAR DB wrapper.</p>
+<h3><li><a name="3.2.3">Does PEAR MDB/MDB2 supercede Metabase?</a></li></h3>
+<p>No. Metabase continues to be independently developed, mainly by Manuel Lemos. Its development is motivated mainly by the use in applications built with the <a href="http://www.meta-language.net/metastorage.html">Metastorage</a> object-relational mapping code generation tool.</p>
+<p>Despite Metabase is a database abstraction package that is almost feature complete, more features may be added to Metabase to address needs of the Metastorage project or to address requests of Metabase users.</p>
+</ul>
+</ul>
+<hr />
+<ul>
+<h2><li><a name="4.1.1">Database access API</a></li></h2>
+<ul>
+<h3><li><a name="5.2.1">How can I retrieve query result rows as associative arrays?</a></li></h3>
+<p>Currently, Metabase does not provide a way to retrieve query result rows as associative arrays. There is no way to provide a database independent solution that works in all situations.</p>
+<p>The problem is that some databases perform changes in the names of the columns of the queries, like truncating or changing the case of the column names.</p>
+<p>In a future release of Metabase there will be a portable solution that lets you assign names to result set columns, making it possible to access result set rows using associative arrays in a way that works with all databases.</p>
+</ul>
+</ul>
+<hr />
+<ul>
+<h2><li><a name="6.1.1">Performance</a></li></h2>
+<ul>
+<h3><li><a name="7.2.1">I have seen some benchmarks that conclude that Metabase is slow. Is it true that Metabase is slow?</a></li></h3>
+<p>No. Metabase is not inherently slow. The benchmarks that conclude that Metabase is slow are usually cooked up by the authors of other database abstraction packages. So it is only natural that the benchmark tests are intentionally distorted to prove that those other abstractions are better, in order to attract less informed users that are unable to verify the facts.</p>
+<p>Often those benchmarks employ tricks like using the slowest methods to call Metabase API.</p>
+<p>Also those benchmarks just perform many repeated SQL <tt>SELECT</tt> queries to the same table, which makes the database server hit the same query or file system caches. That makes the queries take much less time to execute than in real world situations.</p>
+<p>In real database applications many read and write accesses to multiple database tables happen concurrently. This puts database clients on hold most of the time, regardless how fast such database client APIs can be.</p>
+<p>Consequently, these bogus benchmark tests make minor performance differences between each database API appear to be much more noticeable then they really are for most database applications.</p>
+<h3><li><a name="7.2.2">My database is having too many connections and my server is too slow. What can I do to avoid this?</a></li></h3>
+<p>This situation usually occurs when you are using a multi-process Web server, like Apache 1.x, and your applications use persistent connections.</p>
+<p>It may happen even when your site is not too busy but your site pages are serving too much static content items, like images or CSS style sheets files.</p>
+<p>What happens is that when your Web server is having a surge with many users accessing your site, Apache needs to fork more processes to deal with the surge.</p>
+<p>Each new process may eventually create a new database connection. Each database connection may consume a lot of memory. When the physical memory is exhausted, your server starts using virtual memory and the server becomes very slow.</p>
+<p>You could use non-persistent database connections, but that would slow down the database access because the re-connection overhead is often very high.</p>
+<p>Alternatively, you can use a connection pool manager tool. That is a separate middleware that sits between the Web server and the database. It establishes upto a limited number of database connections and forwards the connection requests and the responses. After a surge, it can shutdown unused connections to save memory.</p>
+<p>There are connection pool managers that work with PHP like <a href="http://sqlrelay.sourceforge.net/">SQL Relay</a>. This solution works but obviously it adds permanent overhead because all information exchanged between the database client and the server has to be forwarded by the connection pool manager middleware, making it all a bit slower.</p>
+<p>Since the excessive number of Web processes is often caused by the high number of static content (images and CSS) files that is served by Apache, a more efficient solution consists in serving static content by a separate Web server.</p>
+<p>Static content can be served more efficiently by a multi-threaded Web server. It would have to run on a different TCP port or IP address. Multi-threaded Web servers take much less memory to run and can serve many concurrent accesses. Examples of Web servers that can run in multi-threaded mode are Apache 2 and <a href="http://www.acme.com/software/thttpd/">thttpd</a>.</p>
+<p>Since when you move the static content to a separate Web server, your main Apache 1.x will only be serving pages generated by your PHP database driven application scripts. It will not start more persistent database connections than the limit of processes allowed by Apache.</p>
+<p>To make sure your physical memory is not exhausted with excessive database connections, you should adjust Apache configuration to a reasonable limit number of processes. That is done setting the <tt>MaxClients</tt> Apache configuration option. You should also disable the option <tt>KeepAlive</tt>.</p>
+<p>To make sure that the number of running processes returns to a reasonable number a while after a surge of accesses, you should also adjust the values of the options <tt>MaxSpareServers</tt>, <tt>StartServers</tt> and <tt>MinSpareServers</tt>. Here is an example of Apache configuration option values:</p>
+<pre style="background-color: #ddddcc; ">
+
+ Maxclients 80
+
+ StartServers 20
+
+ MinSpareServers 20
+
+ MaxSpareServers 40
+
+ KeepAlive off
+
+</pre>
+<h3><li><a name="7.2.3">What can I do to improve the performance of my database applications?</a></li></h3>
+<p>If you are having performance problems with your database application, you need to focus on &quot;using more the brain and less the muscles&quot;. Smarter is better than stronger.</p>
+<p>This means in practice that it will not work just by switching to a more expensive database server, or to database abstraction that is claimed to be faster.</p>
+<p>You need to analyze the roots of your problems before you make any changes to your applications. Do not start making changes before you are sure of the benefits.</p>
+<p>In general, the improvement solutions that are more effective are those provide greater performance at the expense of a greater usage of a certain resources, like more memory or disk space. You need to be wise and balance the pros and the cons of each move.</p>
+<p>For instance, using indexes on table columns involved in expensive <tt>SELECT</tt> queries, is a common performance improvement advice. It works by trading <tt>SELECT</tt> query performance improvement by more disk space and eventual <tt>INSERT</tt> or <tt>UPDATE</tt> query performance degradation.</p>
+<p>Often, the greatest bottle-neck of database applications is due to operations that are lengthy or repeated too many times. Therefore, the most effective way to improve the performance of database applications is to avoid accessing the database as much as you can.</p>
+<p>Most database applications have two kinds of database performance problems, depending on whether they are mostly read-only or mostly transactional (i.e. information in the database is changed very often).</p>
+<p>Here follows two generic solutions that focus on avoiding to access the database as much as you can, depending on whether your database applications are mostly read-only or mostly transactional.</p>
+<ul>
+<h4><li><a name="8.3.1">Smart caching</a></li></h4>
+<p>Most database driven sites are mostly read-only. That is the case of those sites that publish content stored in a database, but each content article does not change frequently.</p>
+<p>In that case, you can cache that content in intermediate storage to avoid accessing the database just to retrieve the same information repeatedly.</p>
+<p>On common solution for single server sites is to cache the content in local disk files or shared memory. Shared memory is faster but its availability may be too limited. Disk files based cache are often a good compromise between performance and access speed. Disk files are also cached by the local file system, so they often provide access performance near to shared memory.</p>
+<p>If you have a site that is served by a cluster of servers, there are more adequate solutions for using distributed caches, like using <a href="http://www.danga.com/memcached/">memcached</a> servers.</p>
+<p>There is a class named <a href="http://www.phpclasses.org/filecache">File cache</a> that provides safe means to store and retrieve arbitrary content from cache files. It employs safe locking to prevent cache file corruption in case multiple concurrent accesses attempt to update and retrieve the same cache file.</p>
+<p>You can use this class or other cache manager software to store whole result sets stored in array variables, using the PHP <a href="http://www.php.net/serialize">serialize</a> function or other serialization function that turns the result set values into a string.</p>
+<p>However, if you are using result set data from multiple database queries to generate a single HTML page, it is often more efficient to actually cache only the data of each HTML page, than caching just the result sets. This way not only you avoid accessing the database, but you also avoid the overhead of building whole pages.</p>
+<h4><li><a name="8.3.2">Job queuing</a></li></h4>
+<p>Some database applications need to perform complex operations that take a lot of time to execute. Often such operations need to update one or more large tables with one or more complex indexes.</p>
+<p>If the applications do not need to present the results of such operations right after they are ordered to be executed, it is usually better to defer the execution of the operations to a background process.</p>
+<p>Such process takes requests to process jobs, usually on a first-come first-served basis. Therefore, there must be a sort of queue that stores the details of the requested jobs by the order of arrival of the requests.</p>
+<p>There is a kind of software dedicated to solve job queue processing that deals with the complexity of message passing processing, distribution and response delivery.</p>
+<p>If your database application needs to queue just a few kinds of jobs, you can solve this problem just by creating a simple table with just a few fields that are enough to pass the details of the requested jobs.</p>
+<p>Then you can start a background process, that may run once in a while, started periodically for instance by tools like <tt>cron</tt>, and processes all queued jobs at once. This way, the database server will only be loaded during that period while the background process is executing the queued jobs.</p>
+<p>Job queuing also avoids the problem of having too many concurrent processes delaying each other while trying to update the same large or complex tables.</p>
+</ul>
+</ul>
+</ul>
+
+<hr />
+<address>Manuel Lemos (<a href="mailto:mlemos-at-acm.org">mlemos-at-acm.org</a>)</address>
+</body>
+</html>
