@@ -44,5 +44,17 @@
       function erro() {
           return mysql_error();
       }
+      
+      function begin() {
+          $this->query("START TRANSACTION");
+      }
+      
+      function commit() {
+          $this->query("COMMIT");
+      }
+      
+      function rollback() {
+          $this->query("ROLLBACK");
+      }
   }
 ?>
