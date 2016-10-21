@@ -5,9 +5,12 @@ FROM tutum/apache-php
 MAINTAINER Marcelo Matos <marcelo.matos@ufrr.br>
 
 RUN apt-get update \
-    && apt-get install -y php5-mysql git apache2-utils \
+    && apt-get install -y php5-mysql git apache2-utils cabextract xfonts-utils wget \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && wget http://ftp.us.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb \
+    && dpkg -i ttf-mscorefonts-installer_3.6_all.deb \
+    && rm ttf-mscorefonts-installer_3.6_all.deb
 
 # code
 RUN rm -rf /app && cd / && git clone https://github.com/marcelofmatos/sisquest.git app
