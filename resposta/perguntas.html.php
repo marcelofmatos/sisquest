@@ -1,5 +1,5 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="3" class="perguntas">
-<?
+<?php
         
         #Perguntas
         $sqlPerg = "SELECT p.idpergunta,p.texto,p.ordem,p.idgrupo FROM perguntas p "
@@ -28,7 +28,7 @@
       <td  valign="top" class="pergunta">
       <div id="pergunta_<?= $rowPerg['idpergunta'] ?>"><?= $rowPerg['texto'] ?></div>
        <table cellpadding="0" cellspacing="0" style="padding:0;margin:3px 0">
-<?
+<?php
 
             #Campos
             $sqlCampos = "SELECT idcampo,idpergunta,nome,tipo,rotulo,iddep,params FROM campos c "
@@ -53,8 +53,8 @@
                     case "radio":
                     case "checkbox":
                     ?><tr>
-                    <td width="5" align="right"><b><? $form->AddInputPart($params['ID']); ?></b></td>
-                    <td><? $form->AddLabelPart(array("FOR"=>$params['ID'])); ?></td>
+                    <td width="5" align="right"><b><?= $form->AddInputPart($params['ID']); ?></b></td>
+                    <td><?= $form->AddLabelPart(array("FOR"=>$params['ID'])); ?></td>
                     </tr>
                    <?
 
@@ -63,10 +63,10 @@
                     case "text":
                     default:
                         ?><tr>
-                            <td align="right"><? $form->AddLabelPart(array("FOR"=>$params['ID'])); ?></td>
-                            <td align="left"><b><? $form->AddInputPart($params['ID']); ?></b></td>
+                            <td align="right"><?= $form->AddLabelPart(array("FOR"=>$params['ID'])); ?></td>
+                            <td align="left"><b><?= $form->AddInputPart($params['ID']); ?></b></td>
                         </tr>
-                       <?
+                       <?php
                     
                 }
 
@@ -76,7 +76,7 @@
      </table>
     </td></tr>
 
-<?
+<?php
     } // FimForeach Perg
     
     $rowPerg = null;
