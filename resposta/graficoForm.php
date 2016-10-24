@@ -117,7 +117,7 @@ $conexao->conecta();
     unset($opt);
     $opt[0] = "--- Selecione ---";
       if($idq) {
-          $conexao->query("SELECT idpergunta,texto,identificador FROM perguntas WHERE idquest=$idq ORDER BY ordem");
+          $conexao->query("SELECT idpergunta,texto,identificador FROM perguntas p JOIN grupos g ON (p.idgrupo=g.idgrupo) WHERE p.idquest=$idq ORDER BY g.ordem,g.idgrupo, p.ordem, p.idpergunta");
           while($rowPerguntas = $conexao->fetch_array()){
               $k = $rowPerguntas['idpergunta'];
               $opt[$k] = (($rowPerguntas['identificador']) ? $rowPerguntas['identificador'] : '--') . " - " . $rowPerguntas['texto'];
