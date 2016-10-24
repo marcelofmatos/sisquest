@@ -226,7 +226,7 @@ function listarOpcoes(&$perg){
 #echo $sql; exit;
 		$conexao->query($sql);
         while($rowOpcoes = $conexao->fetch_array()){
-            if($rowOpcoes['tipo']=='text') {
+            if($rowOpcoes['tipo']=='text' || $rowOpcoes['tipo']=='textarea') {
                 $rowOpcoes['rotulo'] = $rowOpcoes['valor'];
             } else if(!empty($rowOpcoes['rotulo'])){
                 # retirar observações no meio do texto da opção
