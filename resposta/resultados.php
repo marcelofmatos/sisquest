@@ -52,9 +52,9 @@ list($totalRespostas) = $conexao->fetch_array();
 <h1>Relatório</h1>
 
 <h2>
-<span class="perg1"><?= ereg_replace('[:?\.]$','',$perg[1]['identificador'] ." ". $perg[1]['texto']) ?></span>
+<span class="perg1"><?= ereg_replace('[:?\.]$','',$perg[1]['identificador'] ." - ". $perg[1]['texto']) ?></span>
 por
-<span class="perg2"><?= ereg_replace('[:?\.]$','',$perg[2]['identificador'] ." ". $perg[2]['texto']) ?></span>
+<span class="perg2"><?= ereg_replace('[:?\.]$','',$perg[2]['identificador'] ." - ". $perg[2]['texto']) ?></span>
 <?= ($formatoValor > 1) ? '(Em %)' : '' ?>
 </h2>
 
