@@ -168,7 +168,7 @@ $campoCopiado = (bool) $_GET['cp'];
     # Lista de opções
     $opt = array();
     $opt[0] = "--- Nenhum ---";
-      $conexao->query("SELECT idcampo,rotulo,texto,identificador FROM campos c,perguntas p WHERE c.idpergunta=p.idpergunta AND p.idquest=$idq ORDER by p.ordem,c.ordem");
+      $conexao->query("SELECT idcampo,rotulo,texto,identificador FROM campos c JOIN perguntas p ON (c.idpergunta=p.idpergunta) JOIN grupos g ON (p.idgrupo=g.idgrupo) WHERE p.idquest=$idq ORDER by g.ordem,g.idgrupo,p.ordem,p.idpergunta,c.ordem,c.idcampo");
       while($rowPergGrupos = $conexao->fetch_array()){
           $k = $rowPergGrupos['idcampo'];
           $opt[$k] = $rowPergGrupos['identificador'] . " - " . $rowPergGrupos['texto'] . " - " . $rowPergGrupos['rotulo'];
