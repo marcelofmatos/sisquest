@@ -46,7 +46,7 @@ list($totalRespostas) = $conexao->fetch_array();
 .perg2{ color: green }
 .zero { color: gray }
 </style> 
-</head>
+</head>AND
 <body>
 <a style="float:right" href="javascript:history.back()">Voltar</a>
 <h1>Relatório</h1>
@@ -61,11 +61,11 @@ por
 
 <table border=1>
 
-<? #Montar a primeira linha com os campos da Perg. 2 ?>
+<?php #Montar a primeira linha com os campos da Perg. 2 ?>
    <tr>
    <th></th>
    
-<?
+<?php
       #foreach2 - Mostrar colunas
       foreach($perg[2]['opcoes'] as $k => $opcaoP2){
 
@@ -73,11 +73,11 @@ por
      
       <th><span class="perg2"><?= (empty($opcaoP2['rotulo'])) ? '(vazio)' : $opcaoP2['rotulo'] ?></span></th>
      
-<?    }  // Fim foreach2 ?>
+<?php    }  // Fim foreach2 ?>
    <th>Total</th>
    </tr>
 
-<?
+<?php
   #foreach1 - Mostrar linha
   foreach($perg[1]['opcoes'] as $k => $opcaoP1){
 	 
@@ -115,7 +115,7 @@ GROUP BY valor
 ?>
     <tr>
     <th><span class="perg1"><?= (empty($opcaoP1['rotulo'])) ? '(vazio)' : $opcaoP1['rotulo'] ?></span></th>
-<?
+<?php
 	
 		#foreach2 - Mostrar colunas
 		foreach($perg[2]['opcoes'] as $k => $opcaoP2){
@@ -138,10 +138,10 @@ GROUP BY valor
      
       <td align="right"><?= ($rowVal==0) ? '<span class="zero">'.$rowVal.'</span>' : $rowVal ?></td>
      
-<?    }  // Fim foreach2 ?>
+<?php    }  // Fim foreach2 ?>
 <td align="right"><?= $rowValTotal ?></td>
     </tr>   
-<? } // Fim foreach1 ?>
+<?php } // Fim foreach1 ?>
 </table>
 Total de respostas: <?= $totalRespostas ?>
 <br>
