@@ -58,7 +58,7 @@ $campoCopiado = (bool) $_GET['cp'];
     # Lista de opções
     $opt[0] = "--- Selecione ---";
       if($idq) {
-          $conexao->query("SELECT idpergunta,texto,identificador FROM perguntas WHERE idquest=".$idq);
+          $conexao->query("SELECT idpergunta,texto,identificador FROM perguntas p JOIN grupos g ON (p.idgrupo=g.idgrupo) WHERE p.idquest=$idq ORDER BY g.ordem,g.idgrupo, p.ordem, p.idpergunta");
           while($rowPerguntas = $conexao->fetch_array()){
               $k = $rowPerguntas['idpergunta'];
               $opt[$k] = $rowPerguntas['identificador'] . " - " . $rowPerguntas['texto'];
