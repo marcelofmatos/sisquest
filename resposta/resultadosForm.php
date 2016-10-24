@@ -45,7 +45,7 @@ $conexao->conecta();
     # Lista de opções
     $opt[0] = "--- Selecione ---";
       if($idq) {
-          $conexao->query("SELECT idpergunta,texto,identificador FROM perguntas p JOIN grupos g ON (p.idgrupo=g.idgrupo) WHERE idquest=$idq ORDER BY g.ordem, p.ordem");
+          $conexao->query("SELECT idpergunta,texto,identificador FROM perguntas p JOIN grupos g ON (p.idgrupo=g.idgrupo) WHERE p.idquest=$idq ORDER BY g.ordem, p.ordem");
           while($rowPerguntas = $conexao->fetch_array()){
               $k = $rowPerguntas['idpergunta'];
               $opt[$k] = (($rowPerguntas['identificador']) ? $rowPerguntas['identificador'] : '--') . " - " . $rowPerguntas['texto'];
@@ -68,7 +68,7 @@ $conexao->conecta();
     unset($opt);
     $opt[0] = "--- Selecione ---";
       if($idq) {
-          $conexao->query("SELECT idpergunta,texto,identificador FROM perguntas p JOIN grupos g ON (p.idgrupo=g.idgrupo) WHERE idquest=$idq ORDER BY g.ordem, p.ordem");
+          $conexao->query("SELECT idpergunta,texto,identificador FROM perguntas p JOIN grupos g ON (p.idgrupo=g.idgrupo) WHERE p.idquest=$idq ORDER BY g.ordem, p.ordem");
           while($rowPerguntas = $conexao->fetch_array()){
               $k = $rowPerguntas['idpergunta'];
               $opt[$k] = (($rowPerguntas['identificador']) ? $rowPerguntas['identificador'] : '--') . " - " . $rowPerguntas['texto'];
