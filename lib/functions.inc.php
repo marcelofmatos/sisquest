@@ -226,13 +226,13 @@ function listarOpcoes(&$perg){
 #echo $sql; exit;
 		$conexao->query($sql);
         while($rowOpcoes = $conexao->fetch_array()){
-            if(!empty($rowOpcoes['rotulo'])){
+            if($rowOpcoes['tipo']=='text') {
+                $rowOpcoes['rotulo'] = $rowOpcoes['valor'];
+            } else if(!empty($rowOpcoes['rotulo'])){
                 # retirar observações no meio do texto da opção
                 $rowOpcoes['rotulo'] = ereg_replace('\(.+\)','',$rowOpcoes['rotulo']);
                 # retirar sinais no final do texto
                 $rowOpcoes['rotulo'] = trim(ereg_replace('[:\.!?;]$','',$rowOpcoes['rotulo']));
-            } else if($rowOpcoes['tipo']=='text') {
-                $rowOpcoes['rotulo'] = $rowOpcoes['valor'];
             }
             $perg['opcoes'][] = $rowOpcoes;
 			

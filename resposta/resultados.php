@@ -46,7 +46,7 @@ list($totalRespostas) = $conexao->fetch_array();
 .perg2{ color: green }
 .zero { color: gray }
 </style> 
-</head>AND
+</head>
 <body>
 <a style="float:right" href="javascript:history.back()">Voltar</a>
 <h1>Relatório</h1>
