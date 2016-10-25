@@ -78,7 +78,7 @@
                     <td><? $form->AddLabelPart(array("FOR"=>$params['ID'])); ?></td>
                     <td nowrap="nowrap"><?= $lnkOpt ?></td>
                     </tr>
-                   <?
+                   <?php
 
                         break;
                         
@@ -88,7 +88,7 @@
                             <td align="left"><? $form->AddLabelPart(array("FOR"=>$params['ID'])); ?><? $form->AddInputPart($params['ID']); ?></td>
                             <td align="left"><?= $lnkOpt ?></td>
                         </tr>
-                       <?
+                       <?php
                     
                 }
 
