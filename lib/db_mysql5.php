@@ -14,10 +14,12 @@
           $this->usuario = $usuario;
           $this->senha = $senha;
           $this->banco = $banco;
+          
       }
       function conecta(){
           $this->conexao = mysql_connect($this->host,$this->usuario,$this->senha) OR die('Erro ao conectar com o banco de dados');
           mysql_select_db($this->banco) OR die('Erro ao selecionar o banco "'.$this->banco.'"');
+          mysql_set_charset('utf8',$this->conexao);
           
       }
       function query($sql,$debug=false){

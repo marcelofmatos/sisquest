@@ -145,7 +145,7 @@ $form->LoadInputValues($form->WasSubmitted("doit"));
  * parts in the layout HTML.
  */
 
-    $form->StartLayoutCapture();
+    
 
     $ancora = "#perg".$row['idpergunta'];
 
@@ -159,17 +159,18 @@ $form->LoadInputValues($form->WasSubmitted("doit"));
 <body>
 <a style="float:right" href="../questionario/edita.php?id=<?=$idq?><?=$ancora?>">Voltar para o questionário</a> 
 <h1>Cadastrar Pergunta</h1>
-<? if ($mensagem){ ?>
+<?php if ($mensagem){ ?>
 <span class="aviso" name="aviso"><?=$mensagem?></span>
-<? } ?>
+<?php } ?>
+<?php $form->StartLayoutCapture(); ?>
     <table>
-    <tr><th><? $form->AddLabelPart(array("FOR"=>"grupo")); ?></th><td><? $form->AddInputPart("grupo"); ?><a class="new" href="../grupo/cadastro.php">Novo grupo</a></td></tr>
-    <tr><th><? $form->AddLabelPart(array("FOR"=>"identificador")); ?></th><td><? $form->AddInputPart("identificador"); ?></td></tr>
-    <tr><th><? $form->AddLabelPart(array("FOR"=>"texto")); ?></th><td><? $form->AddInputPart("texto"); ?></td></tr>
-    <tr><th><? $form->AddLabelPart(array("FOR"=>"ordem")); ?></th><td><? $form->AddInputPart("ordem"); ?></td></tr>
+    <tr><th><?php $form->AddLabelPart(array("FOR"=>"grupo")); ?></th><td><?php $form->AddInputPart("grupo"); ?><a class="new" href="../grupo/cadastro.php">Novo grupo</a></td></tr>
+    <tr><th><?php $form->AddLabelPart(array("FOR"=>"identificador")); ?></th><td><?php $form->AddInputPart("identificador"); ?></td></tr>
+    <tr><th><?php $form->AddLabelPart(array("FOR"=>"texto")); ?></th><td><?php $form->AddInputPart("texto"); ?></td></tr>
+    <tr><th><?php $form->AddLabelPart(array("FOR"=>"ordem")); ?></th><td><?php $form->AddInputPart("ordem"); ?></td></tr>
 
     <tr>
-    <td colspan="2"><? 
+    <td colspan="2"><?php 
 
         $form->AddInputPart("idpergunta");
         $form->AddInputPart("idquest");
@@ -179,7 +180,7 @@ $form->LoadInputValues($form->WasSubmitted("doit"));
     ?></td>
     </tr>
     </table>
-<?     
+<?php
 
     
     $form->EndLayoutCapture();
