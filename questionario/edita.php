@@ -139,7 +139,6 @@ if($form->WasSubmitted("doit"))
 <script>
 this.name='questionario';
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <style type="text/css"><!--
     body{
         margin: 34px;

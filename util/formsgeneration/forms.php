@@ -3105,7 +3105,7 @@ class form_class
 					switch($validations[$validation])
 					{
 						case "ValidateAsEmail":
-							if(!eregi($this->email_regular_expression,$value))
+							if(!preg_match("/{$this->email_regular_expression}/",$value))
 								$input_error=(IsSet($input["ValidateAsEmailErrorMessage"]) ? $input["ValidateAsEmailErrorMessage"] : $default_error);
 							break;
 						case "ValidateAsCreditCard":

@@ -56,11 +56,11 @@
                     <td width="5" align="right"><b><?= $form->AddInputPart($params['ID']); ?></b></td>
                     <td><?= $form->AddLabelPart(array("FOR"=>$params['ID'])); ?></td>
                     </tr>
-                   <?
+                   <?php
 
                         break;
                         
-                    case "text":
+                    #case "text":
                     default:
                         ?><tr>
                             <td align="right"><?= $form->AddLabelPart(array("FOR"=>$params['ID'])); ?></td>

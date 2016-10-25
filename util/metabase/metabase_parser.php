@@ -211,7 +211,7 @@ class metabase_parser_class
 				}
 				break;
 			case "blob":
-				if(!eregi("^([0-9a-f]{2})*\$",$value))
+				if(!preg_match("/^([0-9a-f]{2})*\$/",$value))
 				{
 					$this->SetParserError($path,"it was specified an invalid hexadecimal binary field $value_type value");
 					return(0);

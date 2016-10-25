@@ -36,7 +36,7 @@ class form_layout_paged_class extends form_custom_class
 
 	Function ColorChangeIntensity($color,$intensity_offset)
 	{
-		if(eregi('^#([[:xdigit:]]{2})([[:xdigit:]]{2})([[:xdigit:]]{2})$', $color, $components) != 7)
+		if(preg_match('/^#([[:xdigit:]]{2})([[:xdigit:]]{2})([[:xdigit:]]{2})$/', $color, $components) != 7)
 			return($color);
 		if(($red = intval(HexDec($components[1]) * (100 + $intensity_offset) / 100)) > 255)
 			$red = 255;

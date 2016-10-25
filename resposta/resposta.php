@@ -1,4 +1,4 @@
-<?
+<?php
     require("../util/formsgeneration/forms.php");
     require_once('../lib/functions.inc.php');
     require_once('../db.php');
@@ -43,16 +43,16 @@ function salvaForm($inputs){
 
         
         
-        eregi('resposta_([0-9]+)',$myinput['NAME'],$matches);
+        preg_match('/resposta_([0-9]+)/',$myinput['NAME'],$matches);
         $idpergunta = intval($matches[1]);
         
-        eregi('campo_([0-9]+)',$myinput['ID'],$matches);
+        preg_match('/campo_([0-9]+)/',$myinput['ID'],$matches);
         $idcampo = intval($matches[1]);
         
         $sql .= "('".$idresposta."','".$idpergunta."','".$idcampo."','".trim($myinput['VALUE'])."'),";
                 
     }
-    $sql = eregi_replace(',$','',$sql);
+    $sql = preg_replace('/,$/','',$sql);
     #test
 	#echo $sql; exit;
 	$conexao->query( $sql );
@@ -60,7 +60,7 @@ function salvaForm($inputs){
 		$avisos .= 'Questionário cadastrado<br><a href="listar.php?id='.intval($idquest).'">Visualizar respostas</a>';
 	} else {
 		$conexao->rollback();
-		$avisos .= 'Erro ao cadastrar questionário.';
+		$avisos .= 'Erro ao cadastrar questionário: '. $conexao->erro();
 	}
     
 }
@@ -88,12 +88,14 @@ function salvaForm($inputs){
 			$idcampo = $rowResp['idcampo'];
 			$idpergunta = $rowResp['idpergunta'];
 			switch ($rowResp['tipo']) {
-				case "text":
-					$respostas[$idpergunta][$idcampo] = $rowResp['valor'];
-					break;
-				case "checkbox":
-				case "radio":
-					$respostas[$idpergunta][$idcampo] = 1;
+                            case "checkbox":
+                            case "radio":
+                                $respostas[$idpergunta][$idcampo] = 1;
+                                break;
+                            #case "text":
+                            default:
+                                    $respostas[$idpergunta][$idcampo] = $rowResp['valor'];
+					
 			}
 		}
     }
@@ -196,7 +198,8 @@ function salvaForm($inputs){
 					case "checkbox":
 						$params['CHECKED'] = $respostas[$idpergunta][$idcampo];
 						break;
-					case "text":
+					#case "text":
+                                        default:
 						$params['VALUE'] = $respostas[$idpergunta][$idcampo];
 				}
 			}	
@@ -259,7 +262,6 @@ function salvaForm($inputs){
 <script>
 this.name='questionario';
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="../estilo.css" rel="stylesheet">
 </head>
 <? $onload = HtmlSpecialChars($form->PageLoad()); ?>
@@ -300,7 +302,7 @@ this.name='questionario';
 if ( $edit ) {
 ?>
     <div align="center">
-    <? $form->AddInputPart("button_submit"); ?>
+    <?php $form->AddInputPart("button_submit"); ?>
     </div>
 <?php
 }

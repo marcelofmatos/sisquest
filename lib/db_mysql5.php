@@ -24,11 +24,11 @@
         $this->num_rows = 0;
         $this->sql = $sql;
         $this->query = mysql_query($this->sql,$this->conexao);
-	if(eregi('^SELECT',$this->sql)) $this->num_rows=mysql_num_rows($this->query);
+	if(preg_match('/^SELECT/',$this->sql)) $this->num_rows=mysql_num_rows($this->query);
         $error = mysql_error();
         $errorno = mysql_errno();
         if($debug && $errorno) print("<p><b>Erro(nº $errorno - $error) ao executar Comando SQL</b>: {$this->sql}</p><p><b>Mensagens do MySQL</b>:".mysql_error()."</p>"); 
-        return $this->query;                 
+        return $this->query;
       }
       function fetch_array(){
           return mysql_fetch_array($this->query);
@@ -37,7 +37,7 @@
           return mysql_num_rows($this->query);
       }
       function desconecta(){
-          if($this->query && !eregi('^DELETE',$this->sql)) @mysql_free_result($this->query);
+          if($this->query && !preg_match('/^DELETE/',$this->sql)) @mysql_free_result($this->query);
           if($this->conexao) mysql_close($this->conexao);
       }
       
@@ -50,11 +50,11 @@
       }
       
       function commit() {
-          $this->query("COMMIT");
+          return $this->query("COMMIT");
       }
       
       function rollback() {
-          $this->query("ROLLBACK");
+          return $this->query("ROLLBACK");
       }
   }
 ?>

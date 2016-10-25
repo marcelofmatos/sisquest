@@ -62,8 +62,7 @@
 
                         break;
                         
-                    case "text":
-                    case "textarea":
+                    #case "text":
                     default:
                         ?><tr>
                             <td align="right"><?= $form->AddLabelPart(array("FOR"=>$params['ID'])); ?></td>

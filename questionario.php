@@ -1,4 +1,4 @@
-<?
+<?php
     require("util/formsgeneration/forms.php");
     require_once('lib/functions.inc.php');
     require_once('db.php');
@@ -39,16 +39,16 @@ function salvaForm($inputs){
 
         
         
-        eregi('resposta_([0-9]+)',$myinput['NAME'],$matches);
+        preg_match('/resposta_([0-9]+)/',$myinput['NAME'],$matches);
         $idpergunta = intval($matches[1]);
         
-        eregi('campo_([0-9]+)',$myinput['ID'],$matches);
+        preg_match('/campo_([0-9]+)/',$myinput['ID'],$matches);
         $idcampo = intval($matches[1]);
         
         $sql .= "('".$idresposta."','".$idpergunta."','".$idcampo."','".trim($myinput['VALUE'])."'),";
                 
     }
-    $sql = eregi_replace(',$','',$sql);
+    $sql = preg_replace('/,$/','',$sql);
     
           if( $conexao->query( $sql ) ){
                 $avisos .= 'Questionário cadastrado com o número <br><b>'. $idresposta .'</b><br><a href="resposta/listar.php?id='.intval($_GET['id']).'">Visualizar respostas</a>';
@@ -203,7 +203,6 @@ if(!isSet($_GET['id'])) die();
 <script>
 this.name='questionario';
 </script>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="estilo.css" rel="stylesheet">
 <script>
 var wEdit = null;

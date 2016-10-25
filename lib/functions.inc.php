@@ -41,7 +41,7 @@
     if( is_array($aArray)  && ( count($aArray) > 0 ) ){
     //mostra each par Chave/Valor da matriz
         foreach ( $aArray as $aKey => $aValue ){
-            if( !eregi("^($excKeys)$",$aKey) ){
+            if( !preg_match("^($excKeys)$",$aKey) ){
                 if ( is_array($aValue) ) {
                 // se o valor corrente é matriz
                 // faz com q seja extraído seu valor
@@ -125,7 +125,7 @@
                     } else {
                     */
                         $value = str_replace( '\n', "\n", $value );
-                        if (eregi('^[0-9]+$',$value)) {
+                        if (preg_match('/^[0-9]+$/',$value)) {
                             $value = intval($value);
                         }
                         if ($asArray) {
