@@ -94,7 +94,7 @@ GROUP BY valor
 
 	unset($rowVal,$rowValTotal,$dados);
 	while ($rowDados = $conexao->fetch_array()) {
-		$chave = $rowDados['valor'];
+		$chave = (!empty($rowDados['valor'])) ? $rowDados['valor'] : '(vazio)';
 		$dados[$chave] = $rowDados['contador'];
 	}
 	

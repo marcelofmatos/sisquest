@@ -230,9 +230,9 @@ function listarOpcoes(&$perg){
                 $rowOpcoes['rotulo'] = $rowOpcoes['valor'];
             } else if(!empty($rowOpcoes['rotulo'])){
                 # retirar observações no meio do texto da opção
-                $rowOpcoes['rotulo'] = ereg_replace('\(.+\)','',$rowOpcoes['rotulo']);
+                $rowOpcoes['rotulo'] = preg_replace('/\(.+\)/','',$rowOpcoes['rotulo']);
                 # retirar sinais no final do texto
-                $rowOpcoes['rotulo'] = trim(ereg_replace('[:\.!?;]$','',$rowOpcoes['rotulo']));
+                $rowOpcoes['rotulo'] = trim(preg_replace('/[:\.!?;]$/','',$rowOpcoes['rotulo']));
             }
             $perg['opcoes'][] = $rowOpcoes;
 			
