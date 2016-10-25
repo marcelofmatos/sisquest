@@ -74,8 +74,8 @@
                     case "radio":
                     case "checkbox":
                     ?><tr>
-                    <td width="5" align="right"><? $form->AddInputPart($params['ID']); ?></td>
-                    <td><? $form->AddLabelPart(array("FOR"=>$params['ID'])); ?></td>
+                    <td width="5" align="right"><?= $form->AddInputPart($params['ID']); ?></td>
+                    <td><?= $form->AddLabelPart(array("FOR"=>$params['ID'])); ?></td>
                     <td nowrap="nowrap"><?= $lnkOpt ?></td>
                     </tr>
                    <?php
@@ -85,7 +85,7 @@
                     case "text":
                     default:
                         ?><tr>
-                            <td align="left"><? $form->AddLabelPart(array("FOR"=>$params['ID'])); ?><? $form->AddInputPart($params['ID']); ?></td>
+                            <td align="left"><?= $form->AddLabelPart(array("FOR"=>$params['ID'])); ?><?= $form->AddInputPart($params['ID']); ?></td>
                             <td align="left"><?= $lnkOpt ?></td>
                         </tr>
                        <?php
