@@ -88,13 +88,17 @@ SELECT valor,count(*) as contador FROM
 WHERE (SELECT count(*) FROM dados WHERE idresposta=resultadopergunta.idresposta AND idcampo = '".$opcaoP1['idcampo']."' AND valor LIKE '".$opcaoP1['valor']."' ) = 1 
 GROUP BY valor
 ";
-# teste
-#echo $sql."<br>";
+
+      
 	$conexao->query($sql);
 
 	unset($rowVal,$rowValTotal,$dados);
 	while ($rowDados = $conexao->fetch_array()) {
-		$chave = (!empty($rowDados['valor'])) ? $rowDados['valor'] : '(vazio)';
+                if(empty($rowDados['valor'])) {
+                   #$dados['sem_valor'] += 1;
+                   continue;
+                }
+		$chave = $rowDados['valor'];
 		$dados[$chave] = $rowDados['contador'];
 	}
 	
@@ -136,7 +140,7 @@ GROUP BY valor
 			}
 ?>     
      
-      <td align="right"><?= ($rowVal==0) ? '<span class="zero">'.$rowVal.'</span>' : $rowVal ?></td>
+      <td align="right"><span class="<?= ($rowVal==0) ? 'zero' : '' ?>"><?= $rowVal ?></span></td>
      
 <?php    }  // Fim foreach2 ?>
 <td align="right"><?= $rowValTotal ?></td>

@@ -219,11 +219,11 @@ function listarOpcoes(&$perg){
     global $conexao, $larguralegenda, $ordenar;
         unset($perg['opcoes']);
 
-        $sql  = "SELECT DISTINCT d.valor,c.nome,c.rotulo,c.tipo,c.idcampo,";
-		$sql .= " (SELECT count(*) FROM dados WHERE idcampo = d.idcampo AND valor LIKE d.valor) as contador ";
-		$sql .= " FROM campos c LEFT JOIN dados d ON d.idcampo=c.idcampo";
-		$sql .= " WHERE c.idpergunta IN (".$perg['idpergunta'].") ORDER BY contador ". ( ($ordenar==2) ? "DESC" : "ASC") .", c.rotulo, d.valor ";
-#echo $sql; exit;
+        $sql  = "SELECT DISTINCT c.nome,d.valor,c.rotulo,c.tipo,c.idcampo,";
+        $sql .= " (SELECT count(*) FROM dados WHERE idcampo = d.idcampo AND valor LIKE d.valor) as contador ";
+        $sql .= " FROM campos c LEFT JOIN dados d ON d.idcampo=c.idcampo";
+        $sql .= " WHERE c.idpergunta IN (".$perg['idpergunta'].") ORDER BY contador ". ( ($ordenar==2) ? "DESC" : "ASC") .", c.rotulo, d.valor ";
+
 		$conexao->query($sql);
         while($rowOpcoes = $conexao->fetch_array()){
             if($rowOpcoes['tipo']=='text' || $rowOpcoes['tipo']=='textarea') {
