@@ -31,6 +31,8 @@
 <td>
 <a href="resposta/listar.php?id=<?= intval($row['idquest']) ?>">Ver respostas</a>
 |
+<a href="resposta/resultadosListaForm.php?idq=<?= intval($row['idquest']) ?>">Lista de respostas por pergunta</a>
+|
 <a href="resposta/resultadosForm.php?idq=<?= intval($row['idquest']) ?>">Cruzar perguntas</a>
 |
 <a href="resposta/graficoForm.php?idq=<?= intval($row['idquest']) ?>">Gráfico</a>

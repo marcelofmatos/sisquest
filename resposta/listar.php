@@ -23,7 +23,20 @@
 <br>
 <?php
   $conexao->conecta();
-  $conexao->query("SELECT * FROM respostas WHERE idquest = ".intval($_GET['id']));
+  $sql = "SELECT * FROM respostas WHERE idquest = ".intval($_GET['id']);
+  
+    if(isset($_GET['filtro'])) {
+        $filtro = mysql_real_escape_string($_GET['filtro']);
+        $sql .= " AND idresposta IN (SELECT idresposta FROM dados d JOIN campos c ON (c.idcampo=d.idcampo) WHERE (d.valor LIKE '$filtro' OR c.rotulo LIKE '$filtro')";
+        if(isset($_GET['idp'])) {
+            $idq = intval($_GET['idp']);
+            $sql .= " AND d.idpergunta IN ($idq)";
+        }
+        $sql .= ")";
+    }
+
+
+  $conexao->query($sql);
 ?>
 Total: <?= $conexao->num_rows ?>
 <table border="1">
