@@ -76,7 +76,7 @@ list($totalRespostas) = $conexao->fetch_array();
       <th><span class="perg2"><?= (empty($opcaoP2['rotulo'])) ? '(vazio)' : $opcaoP2['rotulo'] ?></span></th>
      
 <?php    }  // Fim foreach2 ?>
-   <th>Total</th>
+   <th>Questionários<br/>preenchidos</th>
    </tr>
 
 <?php
@@ -142,10 +142,10 @@ GROUP BY valor
 			}
 ?>     
      
-      <td align="right"><span class="<?= ($rowVal==0) ? 'zero' : '' ?>"><?= $rowVal ?></span></td>
+      <td align="center"><span class="<?= ($rowVal==0) ? 'zero' : '' ?>"><?= $rowVal ?></span></td>
      
 <?php    }  // Fim foreach2 ?>
-<td align="right"><?= $rowValTotal ?></td>
+<td align="center"><?= $rowValTotal ?></td>
 <td align="right"><a href="../resposta/listar.php?id=<?php echo $idq; ?>&idp=<?php echo $perg[1]['idpergunta']; ?>&filtro=<?= (empty($opcaoP1['rotulo'])) ? '(vazio)' : $opcaoP1['rotulo'] ?>">Filtrar respostas</a></td>
     </tr>   
 <?php } // Fim foreach1 ?>

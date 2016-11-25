@@ -278,7 +278,9 @@ this.name='questionario';
 <div align="center">
 <a href="listar.php?id=<?= $idquest ?>">Voltar</a> 
 |
-<a href="?id=<?= $idresposta ?>&amp;edit=1">Editar</a> 
+<a href="?id=<?= $idresposta ?>&amp;edit=1">Editar</a>
+|
+<a href="apagar.php?id=<?= $idresposta ?>" onclick="return confirm('Você tem certeza?')">Apagar</a>
 </div>
 <br>
 <?php

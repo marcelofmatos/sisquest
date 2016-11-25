@@ -74,7 +74,7 @@ por
       <th><span class="perg2"><?= (empty($opcaoP2['rotulo'])) ? '(vazio)' : $opcaoP2['rotulo'] ?></span></th>
      
 <?php    }  // Fim foreach2 ?>
-   <th>Total</th>
+   <th>Questionários<br/>preenchidos</th>
    </tr>
 
 <?php
@@ -140,10 +140,10 @@ GROUP BY valor
 			}
 ?>     
      
-      <td align="right"><span class="<?= ($rowVal==0) ? 'zero' : '' ?>"><?= $rowVal ?></span></td>
+      <td align="center" style="background-color: hsla(120,100%,<?= abs($rowVal-100) ?>%,0.3)"><span class="<?= ($rowVal==0) ? 'zero' : '' ?>"><?= $rowVal ?></span></td>
      
 <?php    }  // Fim foreach2 ?>
-<td align="right"><?= $rowValTotal ?></td>
+<td align="center"><?= $rowValTotal ?></td>
     </tr>   
 <?php } // Fim foreach1 ?>
 </table>

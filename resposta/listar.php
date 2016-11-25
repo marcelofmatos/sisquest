@@ -56,6 +56,8 @@ Total: <?= $conexao->num_rows ?>
 <a href="resposta.php?id=<?= intval($row['idresposta']) ?>">Abrir</a>
 |
 <a href="resposta.php?id=<?= intval($row['idresposta']) ?>&amp;edit=1">Editar</a>
+|
+<a href="apagar.php?id=<?= intval($row['idresposta']) ?>" onclick="return confirm('Você tem certeza?')">Apagar</a>
 </td>
 </tr>
 

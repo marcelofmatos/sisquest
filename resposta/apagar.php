@@ -3,10 +3,10 @@
   
   $conexao->conecta();
   
-  $conexao->query("DELETE FROM questionarios WHERE idquest=".intval($_GET['id']));
+  $conexao->query("DELETE FROM respostas WHERE idresposta=".intval($_GET['id']));
   
   $conexao->desconecta();
   
-  header('Location: listar.php');
+  header('Location: /');
   
 ?>
